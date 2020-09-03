@@ -1,0 +1,1 @@
+${returnType} ${methodName}(${paramType} ${param});
