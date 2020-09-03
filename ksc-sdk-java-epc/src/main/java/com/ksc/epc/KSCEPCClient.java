@@ -11,14 +11,18 @@ import com.ksc.Response;
 import com.ksc.auth.AWSCredentials;
 import com.ksc.auth.AWSCredentialsProvider;
 import com.ksc.auth.DefaultAWSCredentialsProviderChain;
+import com.ksc.epc.model.BaseResult;
 import com.ksc.epc.model.GetEpcRequest;
 import com.ksc.epc.model.GetEpcResult;
 import com.ksc.epc.model.ListEpcsRequest;
 import com.ksc.epc.model.ListEpcsResult;
+import com.ksc.epc.model.OpsEpcRequest;
+import com.ksc.epc.model.transform.BaseResultJsonUnmarshaller;
 import com.ksc.epc.model.transform.GetEpcRequestMarshaller;
 import com.ksc.epc.model.transform.GetEpcResultJsonUnmarshaller;
 import com.ksc.epc.model.transform.ListEpcsRequestMarshaller;
 import com.ksc.epc.model.transform.ListEpcsResultJsonUnmarshaller;
+import com.ksc.epc.model.transform.OpsEpcRequestMarshaller;
 import com.ksc.http.ExecutionContext;
 import com.ksc.http.HttpResponseHandler;
 import com.ksc.internal.StaticCredentialsProvider;
@@ -218,7 +222,66 @@ public class KSCEPCClient extends KscWebServiceClient implements KSCEPC{
 		} finally {
 			endClientExecution(kscRequestMetrics, request, response);
 		}
+	}
 
+	@Override
+	public GetEpcResult getEpc(GetEpcRequest getEpcRequest) {
+		ExecutionContext executionContext = createExecutionContext(getEpcRequest);
+		KscRequestMetrics kscRequestMetrics = executionContext.getKscRequestMetrics();
+		kscRequestMetrics.startEvent(Field.ClientExecuteTime);
+		Request<GetEpcRequest> request = null;
+		Response<GetEpcResult> response = null;
+		try {
+			kscRequestMetrics.startEvent(Field.RequestMarshallTime);
+			try {
+				request = new GetEpcRequestMarshaller().marshall(super.beforeMarshalling(getEpcRequest));
+				request.addHeader("Accept", "application/json");
+				// Binds the request metrics to the current request.
+				request.setKscRequestMetrics(kscRequestMetrics);
+			} finally {
+				kscRequestMetrics.endEvent(Field.RequestMarshallTime);
+			}
+
+			HttpResponseHandler<KscWebServiceResponse<GetEpcResult>> responseHandler = protocolFactory
+					.createResponseHandler(
+							new JsonOperationMetadata().withPayloadJson(true).withHasStreamingSuccessResponse(false),
+							new GetEpcResultJsonUnmarshaller());
+			response = invoke(request, responseHandler, executionContext);
+
+			return response.getKscResponse();
+		} finally {
+			endClientExecution(kscRequestMetrics, request, response);
+		}
+	}
+
+	@Override
+	public BaseResult rebootEpc(OpsEpcRequest opsEpcRequest) {
+		ExecutionContext executionContext = createExecutionContext(opsEpcRequest);
+		KscRequestMetrics kscRequestMetrics = executionContext.getKscRequestMetrics();
+		kscRequestMetrics.startEvent(Field.ClientExecuteTime);
+		Request<OpsEpcRequest> request = null;
+		Response<BaseResult> response = null;
+		try {
+			kscRequestMetrics.startEvent(Field.RequestMarshallTime);
+			try {
+				request = new OpsEpcRequestMarshaller().marshall(super.beforeMarshalling(opsEpcRequest));
+				request.addHeader("Accept", "application/json");
+				// Binds the request metrics to the current request.
+				request.setKscRequestMetrics(kscRequestMetrics);
+			} finally {
+				kscRequestMetrics.endEvent(Field.RequestMarshallTime);
+			}
+
+			HttpResponseHandler<KscWebServiceResponse<BaseResult>> responseHandler = protocolFactory
+					.createResponseHandler(
+							new JsonOperationMetadata().withPayloadJson(true).withHasStreamingSuccessResponse(false),
+							new BaseResultJsonUnmarshaller());
+			response = invoke(request, responseHandler, executionContext);
+
+			return response.getKscResponse();
+		} finally {
+			endClientExecution(kscRequestMetrics, request, response);
+		}
 	}
 
 	private void init() {
@@ -254,34 +317,4 @@ public class KSCEPCClient extends KscWebServiceClient implements KSCEPC{
 		return client.execute(request, responseHandler, errorResponseHandler, executionContext);
 	}
 
-	@Override
-	public GetEpcResult getEpc(GetEpcRequest getEpcRequest) {
-		ExecutionContext executionContext = createExecutionContext(getEpcRequest);
-		KscRequestMetrics kscRequestMetrics = executionContext.getKscRequestMetrics();
-		kscRequestMetrics.startEvent(Field.ClientExecuteTime);
-		Request<GetEpcRequest> request = null;
-		Response<GetEpcResult> response = null;
-		try {
-			kscRequestMetrics.startEvent(Field.RequestMarshallTime);
-			try {
-				request = new GetEpcRequestMarshaller().marshall(super.beforeMarshalling(getEpcRequest));
-				request.addHeader("Accept", "application/json");
-				// Binds the request metrics to the current request.
-				request.setKscRequestMetrics(kscRequestMetrics);
-			} finally {
-				kscRequestMetrics.endEvent(Field.RequestMarshallTime);
-			}
-			
-			HttpResponseHandler<KscWebServiceResponse<GetEpcResult>> responseHandler = protocolFactory
-					.createResponseHandler(
-							new JsonOperationMetadata().withPayloadJson(true).withHasStreamingSuccessResponse(false),
-							new GetEpcResultJsonUnmarshaller());
-			response = invoke(request, responseHandler, executionContext);
-
-			return response.getKscResponse();
-		} finally {
-			endClientExecution(kscRequestMetrics, request, response);
-		}
-
-	}
 }
