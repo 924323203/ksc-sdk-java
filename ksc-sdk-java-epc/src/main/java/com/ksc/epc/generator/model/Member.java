@@ -15,6 +15,15 @@ public class Member {
     //首字母大写
     private String name;
 
+    private String fieldName;
+
+    private boolean ifList;
+
+    private boolean ifFilter = false;
+
+    //泛型类
+    private String genericsClassName;
+
     //首字母转大写
     public void setName(String name) {
         if (Character.isUpperCase(name.charAt(0))) {

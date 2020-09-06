@@ -1,6 +1,9 @@
 package com.ksc.epc.generator;
 
 import com.ksc.epc.generator.model.InterfaceInfo;
+import com.ksc.epc.generator.model.Member;
+import com.ksc.epc.model.OpsEpcRequest;
+import com.ksc.util.CollectionUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -12,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.net.FileNameMap;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +47,11 @@ public class TemplateUtils {
         }
     }
 
+    /**
+     * 生成接口和实现类
+     *
+     * @throws Exception e
+     */
     public static void generateMethod() throws Exception {
         List<String> importList = new ArrayList<>();
         List<InterfaceInfo> interfaceInfos = new ArrayList<>();
@@ -82,8 +91,44 @@ public class TemplateUtils {
 
     }
 
-    public static void createFileFromTemplate(File file, Map<String, Object> dataMap,
-                                              String templateName) throws Exception {
+    public static void generateMarshaller(Class clazz) throws Exception {
+        List<Member> members = ClassUtils.findMembers(clazz);
+        List<Member> simpleMembers = new ArrayList<>();
+        Member filter = null;
+        List<Member> listMembers = new ArrayList<>();
+        for (Member member : members) {
+            if (member.isIfList()) {
+                if (member.isIfFilter()) {
+                    filter = member;
+                } else {
+                    listMembers.add(member);
+                }
+            } else {
+                simpleMembers.add(member);
+            }
+        }
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("requestType", clazz.getSimpleName());
+        dataMap.put("requestParam",
+                Character.toLowerCase(clazz.getSimpleName().charAt(0)) + clazz.getSimpleName().substring(1));
+        if (CollectionUtils.isNullOrEmpty(simpleMembers)) {
+            dataMap.put("members", simpleMembers);
+        }
+        if (CollectionUtils.isNullOrEmpty(listMembers)) {
+            dataMap.put("listMembers", listMembers);
+            dataMap.put("haveList", true);
+        }
+        if (filter != null) {
+            dataMap.put("filter", filter);
+            dataMap.put("haveList", true);
+        }
+        File marshaller = new File(
+                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/test/" + clazz.getSimpleName() + "Marshaller.java");
+        createFileFromTemplate(marshaller, dataMap, "Marshaller.ftl");
+    }
+
+    private static void createFileFromTemplate(File file, Map<String, Object> dataMap,
+                                               String templateName) throws Exception {
         Configuration configuration = new Configuration();
         configuration.setDefaultEncoding("utf-8");
         configuration.setDirectoryForTemplateLoading(
@@ -107,7 +152,7 @@ public class TemplateUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        generateMethod();
+        generateMarshaller(OpsEpcRequest.class);
 
     }
 }
