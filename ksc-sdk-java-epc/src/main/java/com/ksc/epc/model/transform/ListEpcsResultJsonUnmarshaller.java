@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.ksc.epc.model.EpcHost;
 import com.ksc.epc.model.ListEpcsResult;
 import com.ksc.transform.JsonUnmarshallerContext;
+import com.ksc.transform.SimpleTypeJsonUnmarshallers;
 import com.ksc.transform.Unmarshaller;
 
 /**
@@ -45,6 +46,10 @@ public class ListEpcsResultJsonUnmarshaller implements Unmarshaller<ListEpcsResu
 					context.nextToken();
 					result.setTotalCount(context.getUnmarshaller(Integer.class).unmarshall(context));
 				}
+
+				//基本类型list写法
+//				result.setAppsList(new ListUnmarshaller<String>(
+//						SimpleTypeJsonUnmarshallers.StringJsonUnmarshaller.getInstance()).unmarshall(context));
 			} else if (token == END_ARRAY || token == END_OBJECT) {
 				if (context.getLastParsedParentElement() == null
 						|| context.getLastParsedParentElement().equals(currentParentElement)) {

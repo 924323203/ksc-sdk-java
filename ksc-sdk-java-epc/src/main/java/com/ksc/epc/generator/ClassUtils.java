@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +19,9 @@ import java.util.List;
  * @Date 2020-09-03 10:28
  */
 public class ClassUtils {
+    public static Class[] classes = new Class[]{String.class, Byte.class, Short.class,
+            Integer.class, Long.class, Float.class, Double.class, Character.class, Boolean.class, List.class};
+
     /**
      * 获取指定包下的全部类
      *
@@ -67,16 +71,18 @@ public class ClassUtils {
             Member member = new Member();
             member.setName(field.getName());
             member.setType(field.getType().getSimpleName());
+            //是否是javabean
+            member.setIfBean(!Arrays.asList(ClassUtils.classes).contains(field.getType()));
             //是否为List
             if (field.getType().equals(SdkInternalList.class)) {
                 Type type = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
-
                 //是否为Filter
                 if (type.equals(Filter.class)) {
                     member.setIfFilter(true);
                 }
                 member.setIfList(true);
                 member.setGenericsClassName(((Class) type).getSimpleName());
+                member.setGenericsIfBean(!Arrays.asList(ClassUtils.classes).contains((type)));
             } else {
                 member.setIfList(false);
             }

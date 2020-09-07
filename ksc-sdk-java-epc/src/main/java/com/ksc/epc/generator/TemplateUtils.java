@@ -2,6 +2,7 @@ package com.ksc.epc.generator;
 
 import com.ksc.epc.generator.model.InterfaceInfo;
 import com.ksc.epc.generator.model.Member;
+import com.ksc.epc.model.BaseResult;
 import com.ksc.epc.model.OpsEpcRequest;
 import com.ksc.util.CollectionUtils;
 import freemarker.template.Configuration;
@@ -18,13 +19,18 @@ import java.lang.reflect.Field;
 import java.net.FileNameMap;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author create by WANGXIAOHAN
  * @Date 2020-09-03 18:25
+ * <p>
+ * list类型的入参名称必须是***s
  */
 public class TemplateUtils {
 
@@ -34,13 +40,13 @@ public class TemplateUtils {
      * @throws Exception e
      */
     public static void generateMethod() throws Exception {
-        List<String> importList=new ArrayList<>();
+        List<String> importList = new ArrayList<>();
         List<InterfaceInfo> interfaceInfos = formatInterfaceInfo();
-        for(InterfaceInfo interfaceInfo:interfaceInfos){
-            if(!importList.contains(interfaceInfo.getParamType())){
+        for (InterfaceInfo interfaceInfo : interfaceInfos) {
+            if (!importList.contains(interfaceInfo.getParamType())) {
                 importList.add(interfaceInfo.getParamType());
             }
-            if(!importList.contains(interfaceInfo.getReturnType())){
+            if (!importList.contains(interfaceInfo.getReturnType())) {
                 importList.add(interfaceInfo.getReturnType());
             }
         }
@@ -91,7 +97,7 @@ public class TemplateUtils {
         return interfaceInfos;
     }
 
-    private static void generateMarshaller(Class clazz,String action) throws Exception {
+    private static void generateMarshaller(Class clazz, String action) throws Exception {
         //获取所有成员
         List<Member> members = ClassUtils.findMembers(clazz);
         List<Member> simpleMembers = new ArrayList<>();
@@ -130,6 +136,45 @@ public class TemplateUtils {
         createFileFromTemplate(marshaller, dataMap, "Marshaller.ftl");
     }
 
+    private static void generateUnmarshaller(Class clazz) throws Exception {
+        //获取所有成员
+        List<Member> members = ClassUtils.findMembers(clazz);
+        List<Member> simpleMembers = new ArrayList<>();
+        List<Member> listMembers = new ArrayList<>();
+        //javabean类型和集合类的泛型
+        Set<String> beanTypes = new HashSet<>();
+        for (Member member : members) {
+            if (member.isIfList()) {
+                listMembers.add(member);
+                //javabean类型的list
+                if (member.isGenericsIfBean()) {
+                    beanTypes.add(member.getGenericsClassName());
+                }
+            } else if (member.isIfBean()) {
+                beanTypes.add(member.getType());
+            } else {
+                simpleMembers.add(member);
+            }
+        }
+        //模板参数
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("resultType", clazz.getSimpleName());
+        if (!CollectionUtils.isNullOrEmpty(simpleMembers)) {
+            dataMap.put("members", simpleMembers);
+        }
+        if (!CollectionUtils.isNullOrEmpty(beanTypes)) {
+            dataMap.put("beanTypes", beanTypes);
+        }
+        if (!CollectionUtils.isNullOrEmpty(listMembers)) {
+            dataMap.put("listMembers", listMembers);
+            dataMap.put("haveList", true);
+        }
+        //输出java文件
+        File marshaller = new File(
+                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/test/" + clazz.getSimpleName() + "JsonUnmarshaller.java");
+        createFileFromTemplate(marshaller, dataMap, "Unmarshaller.ftl");
+    }
+
     private static void createFileFromTemplate(File file, Map<String, Object> dataMap,
                                                String templateName) throws Exception {
         Configuration configuration = new Configuration();
@@ -155,7 +200,8 @@ public class TemplateUtils {
     }
 
     public static void main(String[] args) throws Exception {
+        generateUnmarshaller(BaseResult.class);
         //generateMarshaller(OpsEpcRequest.class,"RebootEpc");
-        generateMethod();
+        //generateMethod();
     }
 }

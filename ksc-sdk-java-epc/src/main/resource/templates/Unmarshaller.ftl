@@ -6,13 +6,14 @@ import static com.fasterxml.jackson.core.JsonToken.FIELD_NAME;
 import static com.fasterxml.jackson.core.JsonToken.START_OBJECT;
 import static com.fasterxml.jackson.core.JsonToken.VALUE_NULL;
 
-<#if haveList>
+<#if haveList??>
 import com.ksc.transform.ListUnmarshaller;
 </#if>
 import com.fasterxml.jackson.core.JsonToken;
-<#if listTypes??>
-<#list listTypes as type>
-import com.ksc.epc.model.${type};
+<#-- list类型中的泛型-->
+<#if beanTypes??>
+<#list beanTypes as type>
+import com.ksc.model.${type};
 </#list>
 </#if>
 import com.ksc.epc.model.${resultType};
@@ -37,19 +38,30 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 		while (true) {
 			if (token == null)
 				break;
-
 			if (token == FIELD_NAME || token == START_OBJECT) {
-				if (context.testExpression("EpcHostSet", targetDepth)) {
-					context.nextToken();
-					result.setEpcHostSet(
-							new ListUnmarshaller<EpcHost>(EpcHostJsonUnmarshaller.getInstance()).unmarshall(context));
-				} else if (context.testExpression("RequestId", targetDepth)) {
+				if (context.testExpression("RequestId", targetDepth)) {
 					context.nextToken();
 					result.setRequestId(context.getUnmarshaller(String.class).unmarshall(context));
-				} else if (context.testExpression("TotalCount", targetDepth)) {
-					context.nextToken();
-					result.setTotalCount(context.getUnmarshaller(Integer.class).unmarshall(context));
 				}
+				<#-- 非list类型类型成员-->
+				<#if members??>
+				<#list members as member>
+				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+					context.nextToken();
+					result.set${member.name?cap_first}(context.getUnmarshaller(${member.type}.class).unmarshall(context));
+				}
+				</#list>
+				</#if>
+				<#-- list类型成员,泛型为基本型或string-->
+				<#if listMembers??>
+				<#list listMembers as member>
+				if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+					context.nextToken();
+					result.set${member.name?cap_first}(
+							new ListUnmarshaller<${member.genericsClassName}>(${member.genericsClassName}JsonUnmarshaller.getInstance()).unmarshall(context));
+				}
+				</#list>
+				</#if>
 			} else if (token == END_ARRAY || token == END_OBJECT) {
 				if (context.getLastParsedParentElement() == null
 						|| context.getLastParsedParentElement().equals(currentParentElement)) {
@@ -62,11 +74,11 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 		return result;
 	}
 
-	private static ListEpcsResultJsonUnmarshaller instance;
+	private static ${resultType}JsonUnmarshaller instance;
 
-	public static ListEpcsResultJsonUnmarshaller getInstance() {
+	public static ${resultType}JsonUnmarshaller getInstance() {
 		if (instance == null)
-			instance = new ListEpcsResultJsonUnmarshaller();
+			instance = new ${resultType}JsonUnmarshaller();
 		return instance;
 	}
 }

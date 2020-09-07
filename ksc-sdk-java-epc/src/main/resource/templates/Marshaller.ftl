@@ -3,10 +3,10 @@ package com.ksc.epc.model.transform;
 import com.ksc.DefaultRequest;
 import com.ksc.KscClientException;
 import com.ksc.Request;
-<#if haveList>
+<#if haveList??>
 import com.ksc.internal.SdkInternalList;
 </#if>
-<#if haveFilter>
+<#if haveFilter??>
 import com.ksc.model.Filter;
 </#if>
 import com.ksc.epc.model.${requestType};
