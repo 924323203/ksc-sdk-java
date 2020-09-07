@@ -6,6 +6,8 @@ import com.ksc.model.Filter;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -64,16 +66,17 @@ public class ClassUtils {
             }
             Member member = new Member();
             member.setName(field.getName());
-            member.setFieldName(field.getName());
             member.setType(field.getType().getSimpleName());
             //是否为List
             if (field.getType().equals(SdkInternalList.class)) {
+                Type type = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+
                 //是否为Filter
-                if (field.getGenericType().equals(Filter.class)) {
+                if (type.equals(Filter.class)) {
                     member.setIfFilter(true);
                 }
                 member.setIfList(true);
-                member.setGenericsClassName(field.getGenericType().getClass().getSimpleName());
+                member.setGenericsClassName(((Class) type).getSimpleName());
             } else {
                 member.setIfList(false);
             }

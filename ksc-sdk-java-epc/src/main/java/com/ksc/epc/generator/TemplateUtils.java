@@ -28,54 +28,22 @@ import java.util.Map;
  */
 public class TemplateUtils {
 
-    public static void generateForRequest(Class clazz) {
-        for (Field field : clazz.getDeclaredFields()) {
-            Class<?> fieldClazz = field.getType();
-            if (fieldClazz.equals(String.class)) {
-
-            } else if (fieldClazz.equals(Integer.class) || fieldClazz.equals(int.class)) {
-
-            } else if (fieldClazz.equals(Long.class) || fieldClazz.equals(long.class)) {
-
-            } else if (fieldClazz.equals(Double.class) || fieldClazz.equals(double.class)) {
-
-            } else if (fieldClazz.equals(Float.class) || fieldClazz.equals(float.class)) {
-
-            } else if (fieldClazz.equals(Boolean.class) || fieldClazz.equals(boolean.class)) {
-
-            }
-        }
-    }
-
     /**
      * 生成接口和实现类
      *
      * @throws Exception e
      */
     public static void generateMethod() throws Exception {
-        List<String> importList = new ArrayList<>();
-        List<InterfaceInfo> interfaceInfos = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(new File(TemplateUtils.class.getResource("/interface.csv").getPath())),
-                StandardCharsets.UTF_8));
-        //PrintWriter writer=new PrintWriter(new OutputStreamWriter(new FileOutputStream()))
-        String line = null;
-        //接口配置
-        while ((line = reader.readLine()) != null) {
-            String[] infos = line.split(",");
-            InterfaceInfo interfaceInfo = new InterfaceInfo();
-            interfaceInfo.setReturnType(infos[0]);
-            interfaceInfo.setAction(infos[1]);
-            interfaceInfo.setParamType(infos[2]);
-            interfaceInfo.setJavadoc(infos[3]);
-            interfaceInfo.setParam(Character.toLowerCase(infos[2].charAt(0)) + infos[2].substring(1));
-            interfaceInfos.add(interfaceInfo);
-            //import
-            importList.add(infos[0]);
-            importList.add(infos[2]);
+        List<String> importList=new ArrayList<>();
+        List<InterfaceInfo> interfaceInfos = formatInterfaceInfo();
+        for(InterfaceInfo interfaceInfo:interfaceInfos){
+            if(!importList.contains(interfaceInfo.getParamType())){
+                importList.add(interfaceInfo.getParamType());
+            }
+            if(!importList.contains(interfaceInfo.getReturnType())){
+                importList.add(interfaceInfo.getReturnType());
+            }
         }
-
-        reader.close();
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("interfaceList", interfaceInfos);
@@ -91,7 +59,40 @@ public class TemplateUtils {
 
     }
 
-    public static void generateMarshaller(Class clazz) throws Exception {
+    /**
+     * 生成所有Marshaller
+     */
+    public static void generateAllMarshaller() throws Exception {
+        //获取接口信息
+        List<InterfaceInfo> interfaceInfos = formatInterfaceInfo();
+        for (InterfaceInfo interfaceInfo : interfaceInfos) {
+            generateMarshaller(Class.forName("com.ksc.epc.model." + interfaceInfo.getParamType()),
+                    interfaceInfo.getAction());
+        }
+    }
+
+    private static List<InterfaceInfo> formatInterfaceInfo() throws Exception {
+        List<InterfaceInfo> interfaceInfos = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(new File(TemplateUtils.class.getResource("/interface.csv").getPath())),
+                StandardCharsets.UTF_8));
+        String line = null;
+        //接口配置
+        while ((line = reader.readLine()) != null) {
+            String[] infos = line.split(",");
+            InterfaceInfo interfaceInfo = new InterfaceInfo();
+            interfaceInfo.setReturnType(infos[0]);
+            interfaceInfo.setAction(infos[1]);
+            interfaceInfo.setParamType(infos[2]);
+            interfaceInfo.setJavadoc(infos[3]);
+            interfaceInfos.add(interfaceInfo);
+        }
+        reader.close();
+        return interfaceInfos;
+    }
+
+    private static void generateMarshaller(Class clazz,String action) throws Exception {
+        //获取所有成员
         List<Member> members = ClassUtils.findMembers(clazz);
         List<Member> simpleMembers = new ArrayList<>();
         Member filter = null;
@@ -107,21 +108,23 @@ public class TemplateUtils {
                 simpleMembers.add(member);
             }
         }
+        //模板参数
         Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("action", action);
         dataMap.put("requestType", clazz.getSimpleName());
-        dataMap.put("requestParam",
-                Character.toLowerCase(clazz.getSimpleName().charAt(0)) + clazz.getSimpleName().substring(1));
-        if (CollectionUtils.isNullOrEmpty(simpleMembers)) {
+        if (!CollectionUtils.isNullOrEmpty(simpleMembers)) {
             dataMap.put("members", simpleMembers);
         }
-        if (CollectionUtils.isNullOrEmpty(listMembers)) {
+        if (!CollectionUtils.isNullOrEmpty(listMembers)) {
             dataMap.put("listMembers", listMembers);
             dataMap.put("haveList", true);
         }
         if (filter != null) {
             dataMap.put("filter", filter);
             dataMap.put("haveList", true);
+            dataMap.put("haveFilter", true);
         }
+        //输出java文件
         File marshaller = new File(
                 "ksc-sdk-java-epc/src/main/java/com/ksc/epc/test/" + clazz.getSimpleName() + "Marshaller.java");
         createFileFromTemplate(marshaller, dataMap, "Marshaller.ftl");
@@ -152,7 +155,7 @@ public class TemplateUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        generateMarshaller(OpsEpcRequest.class);
-
+        //generateMarshaller(OpsEpcRequest.class,"RebootEpc");
+        generateMethod();
     }
 }

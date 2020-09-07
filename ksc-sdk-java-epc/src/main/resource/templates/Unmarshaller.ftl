@@ -6,9 +6,15 @@ import static com.fasterxml.jackson.core.JsonToken.FIELD_NAME;
 import static com.fasterxml.jackson.core.JsonToken.START_OBJECT;
 import static com.fasterxml.jackson.core.JsonToken.VALUE_NULL;
 
+<#if haveList>
 import com.ksc.transform.ListUnmarshaller;
+</#if>
 import com.fasterxml.jackson.core.JsonToken;
-import com.ksc.epc.model.EpcHost;
+<#if listTypes??>
+<#list listTypes as type>
+import com.ksc.epc.model.${type};
+</#list>
+</#if>
 import com.ksc.epc.model.${resultType};
 import com.ksc.transform.JsonUnmarshallerContext;
 import com.ksc.transform.Unmarshaller;
@@ -23,7 +29,6 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 		int originalDepth = context.getCurrentDepth();
 		String currentParentElement = context.getCurrentParentElement();
 		int targetDepth = originalDepth + 1;
-d
 		JsonToken token = context.getCurrentToken();
 		if (token == null)
 			token = context.nextToken();

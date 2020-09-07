@@ -26,7 +26,7 @@ import com.ksc.util.CredentialUtils;
 import com.ksc.util.KscRequestMetrics;
 import com.ksc.util.KscRequestMetrics.Field;
 
-public class KSCEPCClient extends KscWebServiceClient implements KSCEPC{
+public class KSCEPCClient extends KscWebServiceClient implements KSCEPC {
 	/** Provider for AWS credentials. */
 	private AWSCredentialsProvider kscCredentialsProvider;
 
@@ -187,8 +187,9 @@ public class KSCEPCClient extends KscWebServiceClient implements KSCEPC{
 	}
 
 	<#list interfaceList as impl>
+
 	@Override
-	public ${impl.returnType} ${impl.action}(${impl.paramType} ${impl.param}) {
+	public ${impl.returnType} ${impl.action?uncap_first}(${impl.paramType} ${impl.paramType?uncap_first}) {
 		ExecutionContext executionContext = createExecutionContext(opsEpcRequest);
 		KscRequestMetrics kscRequestMetrics = executionContext.getKscRequestMetrics();
 		kscRequestMetrics.startEvent(Field.ClientExecuteTime);
@@ -197,7 +198,7 @@ public class KSCEPCClient extends KscWebServiceClient implements KSCEPC{
 		try {
 			kscRequestMetrics.startEvent(Field.RequestMarshallTime);
 			try {
-				request = new ${impl.paramType}Marshaller().marshall(super.beforeMarshalling(${impl.param}));
+				request = new ${impl.paramType}Marshaller().marshall(super.beforeMarshalling(${impl.paramType?uncap_first}));
 				request.addHeader("Accept", "application/json");
 				// Binds the request metrics to the current request.
 				request.setKscRequestMetrics(kscRequestMetrics);

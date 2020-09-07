@@ -14,7 +14,5 @@ public class InterfaceInfo {
 
     private String action;
 
-    private String param;
-
     private String javadoc;
 }
