@@ -1,0 +1,3132 @@
+1.4.1. DescribePrice( 查询价格信息)
+1.4.1.1. Request Parameters(请求参数)
+AvailabilityZone
+
+可用区的名称
+类型:String
+是否可缺省: 是
+HostType
+
+云物理主机机型
+有效值:
+计算型
+CAL：标准计算型
+CAL-III：标准计算III型
+CAL-IV：标准计算IV型
+CAL-V：标准计算V型
+MI-I1：标准计算II型
+MI-R1：标准计算III型
+DB：标准存储型
+DB-I：存储I型
+DB-II：标准存储II型
+DB-III：标准存储III型
+DB-IV：标准存储IV型
+DB-VI：标准存储VI型
+DB-VII：标准存储VII型
+DB-III-I：标准存储III型-I
+SSD：计算优化型
+SSD-III：计算效能型
+SSD-VI：计算效能II型
+MI-I2：存储优化型
+SSD-III-II：计算效能型-II
+DB-V：标准存储V型
+MEM-I：内存I型
+DB-VIII：标准存储VIII型
+EIO-I：极致IO型
+EC-I：高性能计算型
+EIO-III：极致IO型-III
+EIOS：极致IO存储型
+SSDS-II：存储优化II型
+SSDS-III：存储优化III型
+GPU型
+GPU-I：GPU I型
+P3E：GPU物理实例标准型
+P3E-R：GPU物理实例标准集群型
+P3X：GPU物理实例效能型
+P3X-R：GPU物理实例效能集群型
+P3S：GPU物理实例性能型
+P3IE：GPU物理实例推理型
+P4E.56F8：标准计算型
+P4X.56D8：效能计算型
+GN6-I：推理II型-I
+GN6-II：推理II型-II
+GN6-III：推理II型-III
+GN3-II：推理I型-II
+GN3-III：推理I型-III
+GND5：效能V型
+CMLU1：寒武纪I型
+类型： String
+是否必填：是
+ChargeType
+
+主机计费类型，包年包月Monthly，按日月结Daily
+PrePaidByMonth ：包年包月，有到期时间，只能升带宽
+PostPaidByDay：按日月结，无到期时间，可升降带宽
+类型： String
+是否必填：是
+PurchaseTime
+
+购买时长,只有包年包月计费方式需要填写，可取值1到36，单位为月
+类型：Integer
+可取值：1-36
+是否必填：否
+Amount
+
+购买的数量
+类型：Integer
+可取值：1-1000
+是否必填：否
+1.4.1.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型： String
+PriceInfo
+
+价格信息
+类型：PriceInfo
+返回OpenAPI列表
+
+1.4.2. CreateEpc( 创建云物理主机)
+1.4.2.1. Request Parameters(请求参数)
+AvailabilityZone
+
+可用区的名称
+类型:String
+是否可缺省: 是
+HostType
+
+云物理主机机型
+有效值:
+计算型
+CAL：标准计算型
+CAL-III：标准计算III型
+CAL-IV：标准计算IV型
+CAL-V：标准计算V型
+MI-I1：标准计算II型
+MI-R1：标准计算III型
+DB：标准存储型
+DB-I：存储I型
+DB-II：标准存储II型
+DB-III：标准存储III型
+DB-IV：标准存储IV型
+DB-VI：标准存储VI型
+DB-VII：标准存储VII型
+DB-III-I：标准存储III型-I
+SSD：计算优化型
+SSD-III：计算效能型
+SSD-VI：计算效能II型
+MI-I2：存储优化型
+SSD-III-II：计算效能型-II
+DB-V：标准存储V型
+MEM-I：内存I型
+DB-VIII：标准存储VIII型
+EIO-I：极致IO型
+EC-I：高性能计算型
+EIO-III：极致IO型-III
+EIOS：极致IO存储型
+SSDS-II：存储优化II型
+SSDS-III：存储优化III型
+GPU型
+GPU-I：GPU I型
+P3E：GPU物理实例标准型
+P3E-R：GPU物理实例标准集群型
+P3X：GPU物理实例效能型
+P3X-R：GPU物理实例效能集群型
+P3S：GPU物理实例性能型
+P3IE：GPU物理实例推理型
+P4E.56F8：标准计算型
+P4X.56D8：效能计算型
+GN6-I：推理II型-I
+GN6-II：推理II型-II
+GN6-III：推理II型-III
+GN3-II：推理I型-II
+GN3-III：推理I型-III
+GND5：效能V型
+CMLU1：寒武纪I型
+类型： String
+是否必填：是
+RaidId
+
+数据盘RAID的ID，替代RAID级别，支持多RAID
+类型： String
+是否必填：否
+Raid
+
+数据盘Raid级别
+有效值：
+Raid10
+Raid5
+Raid1
+Raid50
+SRaid0
+Jbod：不做RAID
+类型： String
+是否必填：否
+ImageId
+
+镜像资源ID，参见GetEpcImage。
+类型： String
+是否必填：是
+NetworkInterfaceMode
+
+网卡的模式
+类型： String
+有效值：
+bond4：双网卡做BOND，mode4模式
+single：单网卡
+dual：两个网卡分别加入不同的VPC
+是否必填：是
+BondAttribute
+
+网卡bond的属性，只有在bond4的模式下才生效
+类型: String
+有效值：
+bond0：网卡在bond0
+bond1：网卡在bond1
+是否可缺省: 是
+缺省值: bond1
+SubnetId
+
+云物理主机的子网ID
+类型： String
+是否必填：是
+PrivateIpAddress
+
+服务器的网卡在VPC中的IP
+类型:String
+是否必填：否
+缺省值：DHCP自动分配
+SecurityGroupId.N
+
+云物理主机关联的安全组ID，一个云物理主机最多可以支持3个安全组
+类型： String
+是否必填：是
+DNS1
+
+DNS 1的值，当通过该接口进行修改网络配置时不填写此参数，保持与之前不变。
+类型： String
+是否必填：否
+DNS2
+
+DNS 2的值，当通过该接口进行修改网络配置时不填写此参数，保持与之前不变。
+类型： String
+是否必填：否
+KeyId
+
+用户密钥对的资源ID
+类型： String
+是否必填：是
+格式：固定长度36字符串
+HostName
+
+云物理主机名称，默认为epc
+类型： String
+是否必填：否
+缺省值：ksc_epc
+格式：2-128个字符，支持中英文数字特殊符号
+ChargeType
+
+主机计费类型，包年包月Monthly，按日月结Daily
+PrePaidByMonth ：包年包月，有到期时间，只能升带宽
+PostPaidByDay：按日月结，无到期时间，可升降带宽
+类型： String
+是否必填：是
+ProjectId
+
+项目的ID
+类型: String
+是否可缺省: 是
+缺省值: 默认项目
+PurchaseTime
+
+购买时长,只有包年包月计费方式需要填写，可取值1到36，单位为月
+类型：Integer
+可取值：1-36
+是否必填：否
+Sn
+
+指定SN开机时传入的机器SN号
+类型：Integer
+是否必填：否
+Password
+
+系统的登录密码
+类型：String
+是否必填：是
+SecurityAgent
+
+安全组件类型
+类型：String
+可取值：classic
+是否必填：否
+缺省值：classic
+CloudMonitorAgent
+
+监控组件类型
+类型：String
+可取值：classic
+是否必填：否
+缺省值：classic
+ExtensionSubnetId
+
+从网卡的子网ID ，NetworkInterfaceMode为dual时必填
+类型： String
+是否必填：否
+ExtensionPrivateIpAddress
+
+从网卡在VPC中的IP，NetworkInterfaceMode为dual时必填
+类型:String
+是否必填：否
+缺省值：DHCP自动分配
+ExtensionSecurityGroupId.N
+
+云物理主机关联的安全组ID，一个云物理主机最多可以支持3个安全组，NetworkInterfaceMode为dual时必填
+类型： String
+是否必填：否
+ExtensionDNS1
+
+DNS 1的值，当通过该接口进行修改网络配置时不填写此参数，保持与之前不变。
+类型： String
+是否必填：否
+ExtensionDNS2
+
+DNS 2的值，当通过该接口进行修改网络配置时不填写此参数，保持与之前不变。
+类型： String
+是否必填：否
+AddressBandWidth
+
+弹性IP的带宽
+类型: Integer
+是否可缺省: 是
+LineId
+
+弹性IP的链路类型的ID
+类型: String
+是否可缺省: 是，购买弹性IP时不可缺省
+AddressChargeType
+
+弹性IP的计费类型
+类型: String
+有效值:
+PrePaidByMonth ：包年包月，有到期时间，只能升带宽
+PostPaidByPeak：按峰值月结，无到期时间，可升降带宽
+PostPaidByDay：按日月结，无到期时间，可升降带宽
+PostPaidByTransfer：按流量月结，无到期时间，可升降带宽
+PostPaidByHour：按小时月结，无到期时间，可升降带宽
+是否可缺省: 是，购买弹性IP时不可缺省
+AddressPurchaseTime
+
+购买时长，只有购买包年包月弹性IP时不可缺省。
+类型: Integer
+是否可缺省: 是
+AddressProjectId
+
+弹性IP项目的ID
+类型: String
+是否可缺省: 是
+缺省值: 默认项目
+SystemFileType
+
+系统盘文件格式
+类型: String
+有效值：
+EXT4
+XFS
+是否可缺省: 是
+缺省值: EXT4
+DataFileType
+
+数据盘文件格式
+类型: String
+有效值：
+EXT4
+XFS
+是否可缺省: 是
+缺省值: XFS
+DataDiskCatalogue
+
+数据盘目录
+类型: String
+有效值：
+/DATA/disk：在系统的DATA目录下，系统里展示内容如/DATA/disk1，/DATA/disk2
+/data：在系统的根目录下，系统里展示内容从/data1开始，如/data1，/data2
+是否可缺省: 是
+缺省值: /DATA/disk
+DataDiskCatalogueSuffix
+
+数据盘目录后缀属性
+类型: String
+有效值：
+NoSuffix ：不使用后缀，只有在数据盘有一块的时候，可以使用此参数
+NaturalNumber：后缀从1底层的整数
+NaturalNumberFromZero：后缀从0递增的整数
+是否可缺省: 是
+缺省值: NaturalNumber
+HyperThreading
+
+对超线程的变更
+类型: String
+有效值：
+Open：开启
+Close：关闭
+NoChange：不改变
+是否可缺省: 是
+缺省值: NoChange
+NvmeDataFileType -NVME数据盘类型
+
+类型: String
+有效值：
+EXT4
+XFS
+是否可缺省: 3个NvmeData参数需要同时缺省
+缺省值: 不独立设置NVME参数
+NvmeDataDiskCatalogue
+
+NVME数据盘目录
+类型: String
+有效值：
+/disks/nvme-ssd/disk：在系统的/disks/nvme-ssd/disk目录下
+是否可缺省: 3个NvmeData参数需要同时缺省
+缺省值: 不独立设置NVME参数
+NvmeDataDiskCatalogueSuffix
+
+NVME数据盘目录后缀属性
+类型: String
+有效值：
+NoSuffix ：不使用后缀，只有在数据盘有一块的时候，可以使用此参数
+NaturalNumber：后缀从1底层的整数
+NaturalNumberFromZero：后缀从0递增的整数
+是否可缺省: 3个NvmeData参数需要同时缺省
+缺省值: 不独立设置NVME参数
+ContainerAgent
+
+容器引擎组件类型
+类型：String
+有效值：
+supported
+unsupported
+是否必填：否
+缺省值：unsupported
+KesAgent
+
+KES组件类型
+类型：String
+有效值：
+support
+unsupport
+是否必填：否
+缺省值：unsupport
+KplAgent
+
+KPL组件类型
+类型：String
+有效值：
+support
+unsupport
+是否必填：否
+缺省值：unsupport
+KmrAgent
+
+KMR组件类型
+类型：String
+有效值：
+support
+unsupport
+是否必填：否
+缺省值：unsupport
+1.4.2.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型： String
+Host
+
+物理机的信息
+类型：Host
+返回OpenAPI列表
+
+1.4.2.3. Examples(举例)
+1.4.2.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01&Action=CreateEpc
+&AvailabilityZone=region
+&HostType=CAL
+&Raid=Raid1
+&ImageId=prt13eddaa9-5c35-4734-b177-b83f39fe450c
+&NetworkInterfaceMode=bond4
+&SubnetId=32caccdd-9d43-42ca-9df2-c92c48f13b40
+&ChargeType=Daily
+&Password=ABCabc123
+&KeyId=9348505e-4320-47d0-86a1-403bccdf7965
+&SecurityGroupId.1=3c9ab8f2-9b55-4ceb-af13-d72128481cfb
+1.4.2.3.2. Sample Response(返回)
+<DescribeEpcsResponse>
+    <RequestId>2253ff4f-083e-48d2-aefd-660e43b1507b</RequestId>
+    <Host>
+        <CreateTime>2017-10-30 17:29:33</CreateTime>
+        <HostName>ksc_epc</HostName>
+        <HostId>c5b67560-0190-44bc-987f-f640d3cc0cf8</HostId>
+        <Sn>216388577</Sn>
+        <Raid>Raid10</Raid>
+        <ImageId>prt825b6d6a-c50e-4f56-b002-8cea26b41a43</ImageId>
+        <KeyId>8a8db606-7814-40a4-b28e-81465aa73c63</KeyId>
+        <ProductType>1</ProductType>
+        <OsName>jinxu-image</OsName>
+        <Memory>128G</Memory>
+        <Cpu>
+            <Model>Intel_E5_2620V4 * 2</Model>
+            <Frequence>2.5GHZ</Frequence>
+            <Count>2</Count>
+            <CoreCount>32</CoreCount>
+        </Cpu>
+        <DiskSet>
+            <item>
+                <DiskType>System</DiskType>
+                <Raid>Raid1</Raid>
+                <Space>300GB</Space>
+            </item>
+            <item>
+                <DiskType>Data</DiskType>
+                <Raid>Raid10</Raid>
+                <Space>4TB</Space>
+            </item>
+        </DiskSet>
+        <NetworkInterfaceAttributeSet>
+            <item>
+                <VpcId>fa1a0025-3d70-4105-b53f-a0db25449303</VpcId>
+                <NetworkInterfaceId>c5b67560-0190-44bc-987f-f640d3cc0cf8</NetworkInterfaceId>
+                <SubnetId>32caccdd-9d43-42ca-9df2-c92c48f13b40</SubnetId>
+                <PrivateIpAddress>10.0.24.59</PrivateIpAddress>
+                <DNS1>198.18.224.10</DNS1>
+                <DNS2>198.18.224.11</DNS2>
+                <Mac>6c:92:bf:26:bc:c2</Mac>
+                <SecurityGroupSet>
+                    <item>
+                        <SecurityGroupId>3c9ab8f2-9b55-4ceb-af13-d72128481cfb</SecurityGroupId>
+                    </item>
+                </SecurityGroupSet>
+                <NetworkInterfaceType>primary</NetworkInterfaceType>
+            </item>
+        </NetworkInterfaceAttributeSet>
+        <AvailabilityZone>cn-shanghai-3a</AvailabilityZone>
+        <CloudMonitorAgent>no</CloudMonitorAgent>
+        <HostStatus>Running</HostStatus>
+        <HostType>CAL</HostType>
+        <NetworkInterfaceMode>bond4</NetworkInterfaceMode>
+        <SecurityAgent>no</SecurityAgent>
+        <EnableBond>true</EnableBond>
+    </Host>
+</DescribeEpcsResponse>
+1.4.3. DeleteEpc(删除云物理主机)
+1.4.3.1. Request Parameters(请求参数)
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：是
+1.4.3.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.3.3. Examples(举例)
+1.4.3.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DeleteEpc
+&HostId=d2bb681c-dec8-45aa-8596-3ef584d925b7
+1.4.3.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>98260442-310c-43ec-9799-487460aacfef</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.4. ReturnEpc(退还云物理主机)
+1.4.4.1. Request Parameters(请求参数)
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：是
+1.4.4.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.5. RecoverEpc(恢复云物理主机)
+1.4.5.1. Request Parameters(请求参数)
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：是
+1.4.5.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.6. ModifyEpc(更新云物理主机信息)
+1.4.6.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+HostName
+
+物理机名称，默认不更改
+类型：String
+是否必填：否
+1.4.6.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Host
+
+云物理主机的信息
+类型：Host
+返回OpenAPI列表
+
+1.4.6.3. Examples(举例)
+1.4.6.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ModifyEpc
+&HostId=d2bb681c-dec8-45aa-8596-3ef584d925b7
+&HostName=ksyun
+1.4.6.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>513b2123-8aa9-4b02-abb7-48f1d934421a</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.7. AttachVolume(EPC挂载EBS)
+1.4.7.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+VolumeId
+
+EBS的ID
+类型：String
+是否必填：是
+1.4.7.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.8. DetachVolume(EPC卸载EBS)
+1.4.8.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+VolumeId
+
+EBS的ID
+类型：String
+是否必填：是
+1.4.8.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.9. CreateResourceRequirement(创建资源需求工单)
+1.4.9.1. Request Parameters(请求参数)
+HostType
+
+云物理主机机型
+有效值:
+计算型
+CAL：标准计算型
+CAL-III：标准计算III型
+CAL-IV：标准计算IV型
+CAL-V：标准计算V型
+MI-I1：标准计算II型
+MI-R1：标准计算III型
+DB：标准存储型
+DB-I：存储I型
+DB-II：标准存储II型
+DB-III：标准存储III型
+DB-IV：标准存储IV型
+DB-VI：标准存储VI型
+DB-VII：标准存储VII型
+DB-III-I：标准存储III型-I
+SSD：计算优化型
+SSD-III：计算效能型
+SSD-VI：计算效能II型
+MI-I2：存储优化型
+SSD-III-II：计算效能型-II
+DB-V：标准存储V型
+MEM-I：内存I型
+DB-VIII：标准存储VIII型
+EIO-I：极致IO型
+EC-I：高性能计算型
+EIO-III：极致IO型-III
+EIOS：极致IO存储型
+SSDS-II：存储优化II型
+SSDS-III：存储优化III型
+GPU型
+GPU-I：GPU I型
+P3E：GPU物理实例标准型
+P3E-R：GPU物理实例标准集群型
+P3X：GPU物理实例效能型
+P3X-R：GPU物理实例效能集群型
+P3S：GPU物理实例性能型
+P3IE：GPU物理实例推理型
+P4E.56F8：标准计算型
+P4X.56D8：效能计算型
+GN6-I：推理II型-I
+GN6-II：推理II型-II
+GN6-III：推理II型-III
+GN3-II：推理I型-II
+GN3-III：推理I型-III
+GND5：效能V型
+CMLU1：寒武纪I型
+类型： String
+是否必填：是
+AvailabilityZone
+
+物理机所在的可用区
+类型：String
+是否必填：是
+RequirementCount
+
+服务器需求数量
+类型：String
+是否必填：是
+ProjectName
+
+项目名称
+类型：String
+是否必填：否
+UsageDate
+
+计划使用时间，例如20200601
+类型：String
+是否必填：是
+Description
+
+备注
+类型：String
+是否必填：否
+1.4.9.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+ResourceRequirement
+
+资源需求信息
+类型：ResourceRequirement
+1.4.10. ModifyResourceRequirement(修改资源需求工单)
+1.4.10.1. Request Parameters(请求参数)
+ResourceRequirementId
+
+资源需求的ID
+类型： String
+是否必填：是
+ProjectName
+
+项目名称
+类型：String
+是否必填：否
+Description
+
+备注
+类型：String
+是否必填：否
+1.4.10.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.11. ModifyResourceRequirementProgress(USS修改工单进展)
+1.4.11.1. Request Parameters(请求参数)
+ResourceRequirementId
+
+资源需求的ID
+类型： String
+是否必填：是
+Progress
+
+工单进展
+类型：String
+是否必填：否
+1.4.11.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.12. DeleteResourceRequirement(删除资源需求工单)
+1.4.12.1. Request Parameters(请求参数)
+ResourceRequirementId
+
+资源需求的ID
+类型： String
+是否必填：是
+1.4.12.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.13. ReplyResourceRequirement(回复资源需求工单信息)
+1.4.13.1. Request Parameters(请求参数)
+ResourceRequirementId
+
+资源需求的ID
+类型：String
+是否必填：是
+Remarks
+
+评论
+类型：String
+是否必填：是
+1.4.13.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.14. RemarksResourceRequirement(USS回复资源需求工单)
+内部接口
+
+1.4.14.1. Request Parameters(请求参数)
+ResourceRequirementId
+
+资源需求的ID
+类型：String
+是否必填：是
+Remarks
+
+评论
+类型：String
+是否必填：是
+1.4.14.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.15. DescribeResourceRequirements(查询资源需求工单)
+1.4.15.1. Request Parameters(请求参数)
+ResourceRequirementId.N
+
+资源需求的ID
+类型： String
+是否必填：否
+缺省值：查询所有需求单
+Filter.N
+
+host-type：云物理主机的SN
+project-name，项目名称
+类型：Filter
+是否必填：否
+1.4.15.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+ResourceRequirementSet
+
+资源需求信息
+类型：ResourceRequirement List
+1.4.16. CreateProcess(创建故障替换工单)
+1.4.16.1. Request Parameters(请求参数)
+ProcessId
+
+客户自定义的工单ID，用户和客户内部系统对接
+类型：String
+是否必填：是
+HostIdentificationType
+
+云物理主机标识类型，使用云物理主机的ID还是SN作为入参参数
+类型：String
+有效值：
+HostId
+Sn
+是否必填：否
+缺省值：Sn
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：否，HostIdentificationType为HostId时为必填
+Sn
+
+物理机的SN
+类型：String
+是否必填：否，HostIdentificationType为Sn时为必填
+AvailabilityZone
+
+物理机所在的可用区
+类型：String
+是否必填：是
+Confirm
+
+确认是否可以重启
+类型：String
+有效值：
+0：可以重启
+1：不允许重启
+是否必填：是
+Type
+
+操作类型
+类型：String
+有效值：
+fix
+是否必填：是
+Attribute
+
+问题属性
+类型：String
+有效值：
+Network
+Disk
+Memory
+Cpu
+Gpu
+RaidCard
+NetworkInterfaceCard
+Other
+是否必填：否
+缺省值：Other
+Title
+
+标题
+类型：String
+是否必填：是
+MachineCount
+
+服务器数量，通常填写1
+类型：String
+是否必填：是
+Content
+
+备注内容
+类型：String
+是否必填：是
+1.4.16.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.16.3. Examples(举例)
+1.4.16.3.1. Sample Request(请求)
+http://epc.cn-beijing-6.api.ksyun.com/?Action=CreateProcess&Version=2015-11-01&ProcessId=test-001&Sn=891K5T2&AvailabilityZone=cn-beijing-6c&Confirm=0&Type=fix&Attribute=Disk&MachineCount=1&Content=硬盘指示灯亮&Title=硬盘告警
+1.4.16.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>513b2123-8aa9-4b02-abb7-48f1d934421a</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+返回OpenAPI列表
+
+1.4.17. DeleteProcess(删除工单信息)
+1.4.17.1. Request Parameters(请求参数)
+OperationProcessId
+
+流程的ID
+类型：String
+是否必填：是
+1.4.17.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.17.3. Examples(举例)
+1.4.17.3.1. Sample Request(请求)
+http://epc.cn-beijing-6.api.ksyun.com/?Action=DeleteProcess&Version=2015-11-01&OperationProcessId=b091dc9a-36a6-4f1c-a6b4-314c2fb1c56d
+1.4.17.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>513b2123-8aa9-4b02-abb7-48f1d934421a</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+返回OpenAPI列表
+
+1.4.18. ReplyProcess(回复工单信息)
+1.4.18.1. Request Parameters(请求参数)
+OperationProcessId
+
+流程的ID
+类型：String
+是否必填：是
+Remarks
+
+评论
+类型：String
+是否必填：是
+1.4.18.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.18.3. Examples(举例)
+1.4.18.3.1. Sample Request(请求)
+http://epc.cn-beijing-6.api.ksyun.com/?Action=ReplyProcess&Version=2015-11-01&OperationProcessId=b091dc9a-36a6-4f1c-a6b4-314c2fb1c56d&Remarks=请修复
+1.4.18.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>513b2123-8aa9-4b02-abb7-48f1d934421a</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+返回OpenAPI列表
+
+1.4.19. RemarksProcess(售后回复工单信息)
+内部接口
+
+1.4.19.1. Request Parameters(请求参数)
+OperationProcessId
+
+流程的ID
+类型：String
+是否必填：是
+Remarks
+
+评论
+类型：String
+是否必填：是
+1.4.19.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.20. DescribeProcesses(查询工单信息)
+1.4.20.1. Request Parameters(请求参数)
+OperationProcessId.N
+
+流程的ID
+类型：String
+是否必填：否
+缺省值：查询region下的所有操作流程的信息
+Filter.N
+
+sn：云物理主机的SN
+host-id：云物理主机的ID
+status：流程的状态
+process-id：客户自定义的工单ID，用户和客户内部系统对接
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.20.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+ProcessSet
+
+流程的信息
+类型：Process List
+TotalCount
+
+流程的数量
+类型：Int
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.20.3. Examples(举例)
+1.4.20.3.1. Sample Request(请求)
+http://epc.cn-beijing-6.api.ksyun.com/?Action=DescribeProcesses&Version=2015-11-01
+1.4.20.3.2. Sample Response(返回)
+<DescribeProcessesResponse xmlns:ns0="http://epc.ksyun.com/doc/2015-11-01/">
+    <RequestId>ebf45faa-3551-471e-8987-ec20ce451960</RequestId>
+    <TotalCount>3</TotalCount>
+    <ProcessSet>
+        <item>
+            <CommunicationContentSet/>
+            <Attribute>Disk</Attribute>
+            <OperationProcessId>b091dc9a-36a6-4f1c-a6b4-314c2fb1c56d</OperationProcessId>
+            <ProcessId>test-001</ProcessId>
+            <Status>InProgress</Status>
+            <Sn>891K5T2</Sn>
+            <Region>cn-beijing-6</Region>
+            <AvailabilityZone>cn-beijing-6c</AvailabilityZone>
+            <Confirm>0</Confirm>
+            <Type>fix</Type>
+            <Title>硬盘告警</Title>
+            <MachineCount>1</MachineCount>
+            <Content>硬盘指示灯亮</Content>
+            <CreateTime>2020-04-01 14:44:06</CreateTime>
+        </item>
+        <item>
+            <CommunicationContentSet>
+                <item>
+                    <Remarks>请修复</Remarks>
+                    <Author>customer</Author>
+                    <CreateTime>2020-04-01 10:16:48</CreateTime>
+                </item>
+                <item>
+                    <Remarks>test</Remarks>
+                    <Author>kingsoft</Author>
+                    <CreateTime>2020-04-01 10:16:21</CreateTime>
+                </item>
+            </CommunicationContentSet>
+            <Attribute>Disk</Attribute>
+            <OperationProcessId>8daf6010-f14d-4431-be7c-5e9c89e492e9</OperationProcessId>
+            <ProcessId>f7968124-c96e-48b7-817b-088dca4406f7</ProcessId>
+            <Status>Completed</Status>
+            <Sn>891K5T2</Sn>
+            <Region>cn-beijing-6</Region>
+            <AvailabilityZone>cn-beijing-6a</AvailabilityZone>
+            <Confirm>0</Confirm>
+            <Type>fix</Type>
+            <Title>硬盘故障</Title>
+            <MachineCount>1</MachineCount>
+            <Content>硬盘指示灯亮</Content>
+            <CreateTime>2020-04-01 10:14:49</CreateTime>
+        </item>
+    </ProcessSet>
+</DescribeProcessesResponse>
+返回OpenAPI列表
+
+1.4.21. ModifyHyperThreading(修改超线程)
+1.4.21.1. Request Parameters(请求参数)
+HostId
+
+云物理主机资源ID，删除时需校验物理主机状态，处于关机状态的物理主机方可删除
+类型：String
+是否必填：是
+HyperThreadingStatus
+
+超线程状态
+类型：String
+有效值：start | stop
+是否必填：是
+1.4.21.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.22. ResetPassword(重置密码)
+1.4.22.1. Request Parameters(请求参数)
+HostId
+
+云物理主机资源ID，删除时需校验物理主机状态，处于关机状态的物理主机方可删除
+类型：String
+是否必填：是
+Password
+
+云物理主机的root密码
+类型：String
+是否必填：是
+1.4.22.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.23. DescribeEpcDeviceAttributes(获取云物理主机列表信息)
+1.4.23.1. Request Parameters(请求参数)
+Filter.N
+
+host-type：云物理主机类型
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.23.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+EpcDeviceAttributeSet
+
+物理机的信息
+类型：EpcDeviceAttribute List
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+返回OpenAPI列表
+
+1.4.24. DescribeEpcRaidAttributes(获取云物理主机列表信息)
+1.4.24.1. Request Parameters(请求参数)
+Filter.N
+
+host-type：云物理主机类型
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.24.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+EpcRaidAttributeSet
+
+物理机的信息
+类型：EpcRaidAttribute List
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+返回OpenAPI列表
+
+1.4.25. DescribeEpcTrashes(获取云物理主机回收站信息)
+1.4.25.1. Request Parameters(请求参数)
+HostId.N
+
+云物理主机资源ID
+类型：String
+是否必填：否
+缺省值：查询region下的所有云物理主机信息
+Filter.N
+
+host-name：云物理主机的名称，仅支持精确查询
+host-type：云物理主机类型
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.25.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+HostSet
+
+物理机的信息
+类型：Host List
+TotalCount
+
+云物理主机总数
+类型：Int
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+返回OpenAPI列表
+
+1.4.26. DescribeEpcs(获取云物理主机列表信息)
+1.4.26.1. Request Parameters(请求参数)
+HostId.N
+
+云物理主机资源ID
+类型：String
+是否必填：否
+缺省值：查询region下的所有云物理主机信息
+Filter.N
+
+host-name：云物理主机的名称，仅支持精确查询
+vpc-id：云物理主机的VPC ID
+subnet-id：云物理主机的子网ID
+cabinet-id：托管云物理主机的机柜ID
+host-type：云物理主机类型
+epc-host-status：云物理主机状态
+os-name:操作系统名称
+product-type: 类型
+cluster-id: 容器集群ID
+enable-container:是否支持加入容器集群
+support-ebs：是否支持EBS
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.26.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+HostSet
+
+物理机的信息
+类型：Host List
+TotalCount
+
+云物理主机总数
+类型：Int
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+返回OpenAPI列表
+
+1.4.26.3. Examples(举例)
+1.4.26.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribeEpcs
+1.4.26.3.2. Sample Response(返回)
+<DescribeEpcsResponse>
+    <RequestId>d3af6a4e-47da-41e5-9754-b64a75ef4b15</RequestId>
+    <TotalCount>1</TotalCount>
+    <HostSet>
+        <item>
+            <CreateTime>2017-10-13 20:06:11</CreateTime>
+            <HostName>ksyun</HostName>
+            <HostId>d2bb681c-dec8-45aa-8596-3ef584d925b7</HostId>
+            <Sn>216412740</Sn>
+            <CabinetId>2e5d110a-dd4d-4e49-9385-2b714fea33b3</CabinetId>
+            <Raid>Raid10</Raid>
+            <ImageId>prt825b6d6a-c50e-4f56-b002-8cea26b41a43</ImageId>
+            <ProductType>1</ProductType>
+            <OsName>jinxu-image</OsName>
+            <Memory>128G</Memory>
+            <Cpu>
+                <Model>Intel_E5_2620V4 * 2</Model>
+                <Frequence>2.5GHZ</Frequence>
+                <Count>2</Count>
+                <CoreCount>32</CoreCount>
+            </Cpu>
+            <DiskSet>
+                <item>
+                    <DiskType>System</DiskType>
+                    <Raid>Raid1</Raid>
+                    <Space>300GB</Space>
+                </item>
+                <item>
+                    <DiskType>Data</DiskType>
+                    <Raid>Raid10</Raid>
+                    <Space>4TB</Space>
+                </item>
+            </DiskSet>
+            <NetworkInterfaceAttributeSet>
+                <item>
+                    <VpcId>fa1a0025-3d70-4105-b53f-a0db25449303</VpcId>
+                    <NetworkInterfaceId>d2bb681c-dec8-45aa-8596-3ef584d925b7</NetworkInterfaceId>
+                    <SubnetId>32caccdd-9d43-42ca-9df2-c92c48f13b40</SubnetId>
+                    <PrivateIpAddress>10.0.24.61</PrivateIpAddress>
+                    <DNS1>198.18.224.10</DNS1>
+                    <DNS2>198.18.224.11</DNS2>
+                    <Mac>6c:92:bf:26:be:a2</Mac>
+                    <SecurityGroupSet>
+                        <item>
+                            <SecurityGroupId>3c9ab8f2-9b55-4ceb-af13-d72128481cfb</SecurityGroupId>
+                        </item>
+                    </SecurityGroupSet>
+                    <NetworkInterfaceType>primary</NetworkInterfaceType>
+                </item>
+            </NetworkInterfaceAttributeSet>
+            <AvailabilityZone>cn-shanghai-3a</AvailabilityZone>
+            <CloudMonitorAgent>classic</CloudMonitorAgent>
+            <HostStatus>Reinstalling</HostStatus>
+            <HostType>CAL</HostType>
+            <NetworkInterfaceMode>bond4</NetworkInterfaceMode>
+            <SecurityAgent>classic</SecurityAgent>
+            <EnableBond>true</EnableBond>
+        </item>
+    </HostSet>
+</DescribeEpcsResponse>
+
+客户只能查看到自己有权限查看的库存信息，比如北京6区可用区C有独立集群，则此可用区展示有权限的库存信息
+
+1.4.27. DescribeEpcStocks(查询云物理主机的库存)
+1.4.27.1. Request Parameters(请求参数)
+Filter.N
+
+host-type：物理机的类型
+availability-zone：可用区信息
+类型：Filter
+是否必填：否
+缺省值：查询region下的所有云物理主机库存信息
+1.4.27.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+EpcStockSet
+
+物理机的库存信息
+类型：EpcStock List
+1.4.28. DescribeEpcAvailableStocks(查询EPC全部可用库存)
+innerAPI
+
+1.4.28.1. Request Parameters(请求参数)
+Filter.N
+
+host-type：物理机的类型
+availability-zone：可用区信息
+类型：Filter
+是否必填：否
+缺省值：查询region下的所有云物理主机库存信息
+1.4.28.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+EpcAvailableStockSet
+
+物理机的库存信息
+类型：EpcAvailableStock List
+返回OpenAPI列表
+
+1.4.29. AssociateCluster( 物理机加入到容器集群)
+1.4.29.1. Request Parameters(请求参数)
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：是
+格式：固定长度36字符串
+ClusterId
+
+容器集群的ID
+类型：String
+是否必填：是
+格式：固定长度36字符串
+1.4.29.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.30. DisassociateCluster( 物理机从容器集群移出)
+1.4.30.1. Request Parameters(请求参数)
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：否
+格式：固定长度36字符串
+1.4.30.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.31. StartEpc( 启动云物理主机)
+1.4.31.1. Request Parameters(请求参数)
+HostId
+
+云物理主机的ID
+类型：String
+是否必填：是
+格式：固定长度36字符串
+1.4.31.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.31.3. Examples(举例)
+1.4.31.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=StartEpc
+&HostId=f16ebbf3-3198-45a5-aa4a-dd213aa6d176
+1.4.31.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>10f5fa86-bfe1-40d1-b465-8827cc9156d0</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.32. StopEpc (关闭云物理主机)
+1.4.32.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+1.4.32.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.32.3. Examples(举例)
+1.4.32.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=StopEpc
+&HostId=f16ebbf3-3198-45a5-aa4a-dd213aa6d176
+1.4.32.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>71b35f43-7e3a-449e-9431-55ea4809cbf6</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.33. RebootEpc(重启云物理主机)
+1.4.33.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+1.4.33.2. Response Elements(返回值)
+Request
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.33.3. Examples(举例)
+1.4.33.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=RebootEpc
+&HostId=f16ebbf3-3198-45a5-aa4a-dd213aa6d176
+1.4.33.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>abe5317d-0356-49c5-bcb8-16c3d18ac540</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.34. ReinstallEpc(重装云物理主机)
+1.4.34.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+ImageId
+
+镜像资源ID，唯一
+类型：String
+是否必填：是
+KeyId
+
+用户密钥对的资源ID
+类型：String
+是否必填：是
+Password
+
+系统的登录密码
+类型：String
+是否必填：是
+NetworkInterfaceMode
+
+网卡的模式
+类型： String
+有效值：
+bond4：双网卡做BOND，mode4模式
+single：单网卡
+dual：两个网卡分别加入不同的VPC
+是否必填：是
+BondAttribute
+
+网卡bond的属性，只有在bond4的模式下才生效
+类型: String
+有效值：
+bond0：网卡在bond0
+bond1：网卡在bond1
+是否可缺省: 是
+缺省值: bond1
+SecurityAgent
+
+安全组件类型
+类型：String
+是否必填：是
+CloudMonitorAgent
+
+监控组件类型
+类型：String
+是否必填：是
+RaidId
+
+数据盘RAID的ID，替代RAID级别，支持多RAID
+类型： String
+是否必填：否
+Raid
+
+数据盘Raid级别
+有效值：
+Raid10
+Raid5
+Raid1
+Raid50
+SRaid0
+Jbod：不做RAID
+类型： String
+是否必填：否
+SystemFileType
+
+系统盘文件格式
+类型: String
+有效值：
+EXT4
+XFS
+是否可缺省: 是
+缺省值: EXT4
+DataFileType
+
+数据盘文件格式
+类型: String
+有效值：
+EXT4
+XFS
+是否可缺省: 是
+缺省值: XFS
+DataDiskCatalogue
+
+数据盘目录
+类型: String
+有效值：
+/DATA/disk：在系统的DATA目录下，系统里展示内容如/DATA/disk1，/DATA/disk2
+/data：在系统的根目录下，系统里展示内容从/data1开始，如/data1，/data2
+是否可缺省: 是
+缺省值: /DATA/disk
+DataDiskCatalogueSuffix
+
+数据盘目录后缀属性
+类型: String
+有效值：
+NoSuffix ：不使用后缀，只有在数据盘有一块的时候，可以使用此参数
+NaturalNumber：后缀从1底层的整数
+NaturalNumberFromZero：后缀从0递增的整数，仅在/data目录下生效
+是否可缺省: 是
+缺省值: NaturalNumber
+HyperThreading
+
+对超线程的变更
+类型: String
+有效值：
+Open：开启
+Close：关闭
+NoChange：不改变
+是否可缺省: 是
+缺省值: NoChange
+NvmeDataFileType -NVME数据盘类型
+
+类型: String
+有效值：
+EXT4
+XFS
+是否可缺省: 3个NvmeData参数需要同时缺省
+缺省值: 不独立设置NVME参数
+NvmeDataDiskCatalogue
+
+NVME数据盘目录
+类型: String
+有效值：
+/disks/nvme-ssd/disk：在系统的/disks/nvme-ssd/disk目录下
+是否可缺省: 3个NvmeData参数需要同时缺省
+缺省值: 不独立设置NVME参数
+NvmeDataDiskCatalogueSuffix
+
+NVME数据盘目录后缀属性
+类型: String
+有效值：
+NoSuffix ：不使用后缀，只有在数据盘有一块的时候，可以使用此参数
+NaturalNumber：后缀从1底层的整数
+NaturalNumberFromZero：后缀从0递增的整数
+是否可缺省: 3个NvmeData参数需要同时缺省
+缺省值: 不独立设置NVME参数
+ContainerAgent
+
+容器引擎组件类型
+类型：String
+有效值：
+supported
+unsupported
+是否必填：否
+缺省值：unsupported
+KesAgent
+
+KES组件类型
+类型：String
+有效值：
+support
+unsupport
+是否必填：否
+缺省值：unsupport
+1.4.34.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.34.3. Examples(举例)
+1.4.34.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ReinstallEpc
+&HostId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&ImageId=prt825b6d6a-c50e-4f56-b002-8cea26b41a43
+&KeyId=8a8db606-7814-40a4-b28e-81465aa73c63
+&Password=ABCabc123
+&NetworkInterfaceMode=bond4
+&Raid=Raid10
+1.4.34.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>8934cb67-b4e3-4d63-9a45-cd40e939113d</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.35. ReinstallCustomerEpc(重装托管云物理主机)
+1.4.35.1. Request Parameters(请求参数)
+HostId
+
+物理机资源ID
+类型：String
+是否必填：是
+ServerIp
+
+PXE server的IP
+类型：String
+是否必填：是
+Path
+
+PXE server的路径
+类型：String
+是否必填：是
+1.4.35.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.36. CreateImage(创建自定义镜像)
+1.4.36.1. Request Parameters(请求参数)
+ImageName
+
+镜像名称
+类型：String
+是否必填：否
+缺省值：Ksc_img
+HostId
+
+云物理主机资源ID
+类型：String
+是否必填：是
+1.4.36.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Image
+
+镜像信息
+类型:Image
+返回OpenAPI列表
+
+1.4.36.3. Examples(举例)
+1.4.36.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=CreateImage
+&HostId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+1.4.36.3.2. Sample Response(返回)
+<CreateImageResponse>
+    <RequestId>cc7b932b-3099-477b-994f-92263cf09fae</RequestId>
+</CreateImageResponse>
+1.4.37. ModifyImage(修改自定义镜像信息)
+1.4.37.1. Request Parameters(请求参数)
+ImageId
+
+云物理主机的镜像ID
+类型：String
+是否必填：是
+ImageName
+
+镜像名称
+类型：String
+是否必填：否
+缺省值：不修改名称
+1.4.37.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.37.3. Examples(举例)
+1.4.37.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ModifyImage
+&ImageId=prt0c015914-fcf8-40d9-a815-090c757e045f
+&ImageName=ksyun-image
+1.4.37.3.2. Sample Response(返回)
+<ImageResponse>
+    <RequestId>528978b9-59ce-4ca2-b79a-decd003b88b1</RequestId>
+    <RequestId>true</RequestId>
+</ImageResponse>
+1.4.38. DeleteImage(删除自定义镜像)
+1.4.38.1. Request Parameters(请求参数)
+ImageId
+
+云物理主机的镜像ID
+类型：String
+是否必填：是
+1.4.38.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.38.3. Examples(举例)
+1.4.38.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DeleteImage
+&ImageId=prt0c015914-fcf8-40d9-a815-090c757e045f
+1.4.38.3.2. Sample Response(返回)
+<ImageResponse>
+    <RequestId>d3d08b86-a98d-4ff0-978c-e7df04686890</RequestId>
+    <RequestId>true</RequestId>
+</ImageResponse>
+1.4.39. DescribeImages(查看云物理主机镜像信息)
+1.4.39.1. Request Parameters(请求参数)
+ImageId.N
+
+镜像ID
+类型：String
+是否必填：否
+缺省值：查询region下所有的镜像
+Filter.N
+
+image-type：镜像的类型
+enable-container：是否是容器镜像
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.39.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+TotalCount
+
+满足条件的镜像总数
+类型：Integer
+ImageSet
+
+镜像列表
+类型:Image List
+1.4.40. DescribeInspections(物理机巡检信息)
+1.4.40.1. Request Parameters(请求参数)
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.40.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+TotalCount
+
+满足条件的物理机信息
+类型：Integer
+InspectionSet
+
+故障检测信息
+类型:Inspection List
+返回OpenAPI列表
+
+1.4.40.3. Examples(举例)
+1.4.40.3.1. Sample Request(请求)
+http://epc.cn-beijing-6.api.ksyun.com/?Action=DescribeInspections&Version=2015-11-01
+1.4.40.3.2. Sample Response(返回)
+<DescribeInspectionsResponse xmlns="http://epc.ksyun.com/doc/2015-11-01/">
+    <RequestId>1e484111-e5ac-41f3-8f05-c70d401e8e74</RequestId>
+    <TotalCount>0</TotalCount>
+    <InspectionSet/>
+</DescribeInspectionsResponse>
+1.4.41. ModifyNetworkInterfaceAttribute(修改网卡信息)
+1.4.41.1. Request Parameters(请求参数)
+NetworkInterfaceId
+
+云物理主机虚拟网络接口ID
+类型：String
+是否必填：是
+HostId
+
+云物理主机的资源ID
+类型：String
+是否必填：是
+SubnetId
+
+云物理主机所属的新的子网ID
+类型：String
+是否必填：是
+IpAddress
+
+内网资源IP地址
+类型：String
+是否必填：否
+缺省值：自动分配
+SecurityGroupId.N
+
+实例绑定的安全组集合，更换VPC时，必须填写
+类型：String
+是否必填：否
+缺省值：不改变安全组信息
+1.4.41.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.41.3. Examples(举例)
+1.4.41.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ModifyNetworkInterfaceAttribute
+&NetworkInterfaceId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&HostId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&SubnetId=32caccdd-9d43-42ca-9df2-c92c48f13b40
+&IpAddress=10.0.24.59
+1.4.41.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>ddd08735-9bde-48bb-8d63-2695165502ec</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.42. ModifyDns(修改网卡DNS信息)
+1.4.42.1. Request Parameters(请求参数)
+NetworkInterfaceId
+
+云物理主机虚拟网络接口ID
+类型：String
+是否必填：是
+HostId
+
+云物理主机的资源ID
+类型：String
+是否必填：是
+DNS1
+
+DNS 1的值
+类型：String
+是否必填：是
+DNS2
+
+DNS 2的值
+类型：String
+是否必填：否
+1.4.42.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.42.3. Examples(举例)
+1.4.42.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ModifyDns
+&NetworkInterfaceId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&HostId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&DNS1=198.18.224.10
+1.4.42.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>968365a4-9dc3-43f3-aed0-04c380549157</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.43. ModifySecurityGroup(修改网卡安全组信息)
+1.4.43.1. Request Parameters(请求参数)
+NetworkInterfaceId
+
+云物理主机虚拟网络接口ID
+类型：String
+是否必填：是
+HostId
+
+云物理主机的资源ID
+类型：String
+是否必填：是
+SecurityGroupId.N
+
+实例绑定的安全组集合，需要填写全量
+类型：String
+是否必填：否
+缺省值：不改变安全组信息
+1.4.43.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.43.3. Examples(举例)
+1.4.43.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ModifySecurityGroup
+&NetworkInterfaceId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&HostId=c5b67560-0190-44bc-987f-f640d3cc0cf8
+&SecurityGroupId.1=3c9ab8f2-9b55-4ceb-af13-d72128481cfb
+1.4.43.3.2. Sample Response(返回)
+<EpcResponse>
+    <RequestId>bccf6caa-d853-4ce2-b328-a631bd01425f</RequestId>
+    <Return>true</Return>
+</EpcResponse>
+1.4.44. ImportKey(导入密钥)
+1.4.44.1. Request Parameters(请求参数)
+KeyName
+
+用户定义的密钥名称
+类型：String
+是否必填：是
+格式：2-128个字符，支持中英文数字特殊符号
+PublicKey
+
+用户的公钥信息
+类型：String
+是否必填：是
+1.4.44.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Key
+
+密钥对的信息
+类型：Key
+返回OpenAPI列表
+
+1.4.44.3. Examples(举例)
+1.4.44.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ImportKey
+&KeyName=chenglulu-test
+&PublicKey=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCBfVhotQAc3rzSE7fb5GQiS7JBhtXor04nDL3U8FfBfxlYjjNKbrbZnMSlGDeABVxbaV9O4BMHdt1PBPPqQmTaNxU86CenzSsTuo0MrFTtV1rqwfUL6TuyWsfLP215PGuQFlyzv8E4AEj4O6ozlW4HKFqggxvXWRrVs6p8S41diQ== root
+1.4.44.3.2. Sample Response(返回)
+<DescribeImagesResponse>
+    <RequestId>cae7687f-9d7d-46f1-8da5-8548ffd9ae99</RequestId>
+    <Key>
+        <KeyId>8a8db606-7814-40a4-b28e-81465aa73c63</KeyId>
+        <PublicKey>    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCBfVhotQAc3rzSE7fb5GQiS7JBhtXor04nDL3U8FfBfxlYjjNKbrbZnMSlGDeABVxbaV9O4BMHdt1PBPPqQmTaNxU86CenzSsTuo0MrFTtV1rqwfUL6TuyWsfLP215PGuQFlyzv8E4AEj4O6ozlW4HKFqggxvXWRrVs6p8S41diQ== root</PublicKey>
+    </Key>
+</DescribeImagesResponse>
+1.4.45. DeleteKey(删除密钥)
+1.4.45.1. Request Parameters(请求参数)
+KeyId
+
+用户密钥对的资源ID
+类型：String
+是否必填：是
+1.4.45.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.45.3. Examples(举例)
+1.4.45.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DeleteKey
+&KeyId=8a8db606-7814-40a4-b28e-81465aa73c63
+1.4.45.3.2. Sample Response(返回)
+<DeleteKeyResponse>
+    <RequestId>a76fe7d1-6055-46e6-8321-7c4afd2dc2dd</RequestId>
+    <Return>true</Return>
+</DeleteKeyResponse>onse>
+1.4.46. ModifyKey(修改密钥信息)
+1.4.46.1. Request Parameters(请求参数)
+KeyId
+
+用户密钥对的资源ID
+类型：String
+是否必填：是
+KeyName
+
+用户定义的密钥名称
+类型：String
+是否必填：否
+缺省值：Ksc_key
+格式：2-128个字符，支持中英文数字特殊符号
+1.4.46.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.47. CreateKey(创建密钥)
+1.4.47.1. Request Parameters(请求参数)
+KeyName
+
+用户定义的密钥名称
+类型：String
+是否必填：否
+缺省值：Ksc_key
+格式：2-128个字符，支持中英文数字特殊符号
+1.4.47.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+PrivateKey
+
+用户的公钥信息
+类型：String
+Key
+
+密钥对的信息
+类型：Key
+返回OpenAPI列表
+
+1.4.47.3. Examples(举例)
+1.4.47.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=CreateKey
+1.4.47.3.2. Sample Response(返回)
+<DeleteKeyResponse>
+    <RequestId>fe78467d-cd0d-4fd2-b335-1d5ad597b217</RequestId>
+    <PrivateKey>-----BEGIN RSA PRIVATE KEY-----
+MIICWwIBAAKBgQCatBXiriDc9kUQWBrb6kaIM/G0qSsKum3xFuNT5QVihkaaa5c3
+LrnRUOcUqFf1+2EXTdTc8iEz67tQD+0WUHeaXX84kdC/GLSBMkdFxPagBxBjbVH7
+TUwBC49LqfVvGYLr6n5HaTyBA+I9OVbxK9ucR+PSs9omhPMsslJTiI2KawIDAQAB
+AoGAUz141Sp6VkpQaPXvJctNvjWs5Vds6G3dgC6fjOGa3yN+09H2YGPM6dqNK+lU
+wu9Kk552XZgO04AQnoijOjF72ISHBNyhg/ULh7Wkw5YxyvouMX6bWwF2cRpR+5qZ
+l6a9xjtO5COub+J8hhEDRGfvTWWNY2o3dAMVhYHdWe4Ou+kCQQDhe9mIesq2RGRx
+M4YtL9smIjssgLbQggbxRWV6n3WFhPt1gkToLH3m4dlkwlTSZZM7v85vUpe97R5W
+Hw1xRNAfAkEAr6P33vU8dlzEVFKo2w6RC1kCJBs18pFRYYVDNtOS4SUzOz1WPbPa
+XW2/H/pJm9p8YkWQa3MtkNGQXVsJbtMMNQJATiGxNgZ+eXvnZgZZhwzfHi6cXIZZ
+UpTLvQyz5jKc8WAsFgLGx8Cq+7bksnJYG/OQehKzgIWZCPnCGkt2R/p1NwJAdlz0
+XJ89aLJpaD3wJvdxDYmlJLnlqBsAEc0hl6AK+oj8Nm7GYHyEqrObuiwMUOhzLDKe
++Zo72b0wIYmJGNNHBQJAI/lkPWvqe5kabFQ81VF2iSj4ZHF/y8wY9vgSpmi/bI++
+DXo8WwrWGL3ILMFZ8cF3vcQocTCnRSyZSlw8LOjjVg==
+-----END RSA PRIVATE KEY-----
+</PrivateKey>
+    <Key>
+        <KeyId>9348505e-4320-47d0-86a1-403bccdf7965</KeyId>
+        <PublicKey>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCatBXiriDc9kUQWBrb6kaIM/G0qSsKum3xFuNT5QVihkaaa5c3LrnRUOcUqFf1+2EXTdTc8iEz67tQD+0WUHeaXX84kdC/GLSBMkdFxPagBxBjbVH7TUwBC49LqfVvGYLr6n5HaTyBA+I9OVbxK9ucR+PSs9omhPMsslJTiI2Kaw== root
+</PublicKey>
+    </Key>
+</DeleteKeyResponse>
+AssociateAddressPortfwd
+
+1.4.48. AssociateKey(Key关联云主机)
+内部接口,不对外提供
+
+1.4.48.1. Request Parameters(请求参数)
+KeyId
+
+用户密钥对的资源ID
+类型：String
+是否必填：否
+InstanceId
+
+服务器ID
+类型:String
+是否可缺省: 否
+InstanceRegion
+
+服务器所在的地域
+类型:String
+是否可缺省: 否
+InstanceType
+
+服务器ID
+类型:String
+有效值：kec
+是否可缺省: 否
+1.4.48.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.49. DisassociateKey(Key关联云主机)
+内部接口,不对外提供
+
+1.4.49.1. Request Parameters(请求参数)
+KeyId
+
+用户密钥对的资源ID
+类型：String
+是否必填：否
+InstanceId
+
+服务器ID
+类型:String
+是否可缺省: 否
+1.4.49.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+1.4.50. DescribeKeys(获取密钥列表信息)
+1.4.50.1. Request Parameters(请求参数)
+KeyId.N
+
+用户密钥对的资源ID
+类型：String
+是否必填：否
+缺省值：查询region下所有的密钥信息
+Filter.N
+
+instance-id：云主机的 ID
+类型：Filter
+是否必填：否
+1.4.50.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+KeySet
+
+密钥列表
+类型: Key List
+TotalCount
+
+用户密钥对总数
+类型：Int
+返回OpenAPI列表
+
+1.4.50.3. Examples(举例)
+1.4.50.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribeKeys
+1.4.50.3.2. Sample Response(返回)
+<DescribeKeysResponse>
+    <RequestId>a47faeb7-f109-48be-989a-1efb110a1d08</RequestId>
+    <TotalCount>18</TotalCount>
+    <KeySet>
+        <item>
+            <KeyId>8a8db606-7814-40a4-b28e-81465aa73c63</KeyId>
+            <Name>chenglulu-test</Name>
+            <PublicKey>    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCBfVhotQAc3rzSE7fb5GQiS7JBhtXor04nDL3U8FfBfxlYjjNKbrbZnMSlGDeABVxbaV9O4BMHdt1PBPPqQmTaNxU86CenzSsTuo0MrFTtV1rqwfUL6TuyWsfLP215PGuQFlyzv8E4AEj4O6ozlW4HKFqggxvXWRrVs6p8S41diQ== root</PublicKey>
+            <CreateTime>2017-10-27 19:52:14</CreateTime>
+        </item>
+1.4.51. DescribePhysicalMonitor(获取硬件监控信息)
+1.4.51.1. Request Parameters(请求参数)
+HostId
+
+云物理主机资源ID
+类型：String
+是否必填：是
+1.4.51.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+CPUInfo
+
+CPU监控
+类型：json
+MemoryInfo
+
+内存监控
+类型：json
+DiskInfo
+
+硬盘监控
+类型：json
+FanInfo
+
+风扇监控
+类型：json
+PowerInfo
+
+电源监控
+类型：json
+返回OpenAPI列表
+
+1.4.51.3. Examples(举例)
+1.4.51.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribePhysicalMonitor
+&HostId=d2bb681c-dec8-45aa-8596-3ef584d925b7
+1.4.51.3.2. Sample Response(返回)
+<DescribePhyMonitor>
+    <RequestId>1e973b0e-8c4f-4cf3-8746-8e4b6631c01f</RequestId>
+    <CPUInfo>
+        <item>
+            <Item>CPU0Status</Item>
+            <Status>ok</Status>
+        </item>
+    </CPUInfo>
+    <MemoryInfo>
+        <item>
+            <Item>MemCha0Status</Item>
+            <Status>ok</Status>
+        </item>
+    </MemoryInfo>
+    <DiskInfo>
+        <item>
+            <Item>HDD1Status</Item>
+            <Status>ok</Status>
+        </item>
+    </DiskInfo>
+    <FanInfo>
+        <item>
+            <Item>FAN0</Item>
+            <Status>ok</Status>
+        </item>
+    </FanInfo>
+    <PowerInfo>
+        <item>
+            <Item>TotalPower</Item>
+            <Status>ok</Status>
+        </item>
+    </PowerInfo>
+</DescribePhyMonitor>
+1.4.52. DescribeCabinets(获取云物理主机托管机柜列表信息)
+1.4.52.1. Request Parameters(请求参数)
+CabinetId.N
+
+托管机柜ID，如果有ID则查询具体机柜，如果没有ID则查询机柜列表信息
+类型：String
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.52.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+CabinetSet
+
+托管机柜资源列表
+类型：Cabinet List
+TotalCount
+
+托管机柜总数
+类型：Int
+返回OpenAPI列表
+
+1.4.53. CreateAccessory(租赁配件)
+1.4.53.1. Request Parameters(请求参数)
+AvailabilityZone
+
+可用区的名称
+类型:String
+是否必填：是
+AccessoryName
+
+配置服务名称
+类型:String
+是否必填：否
+缺省值：ksc_accessory
+AccessoryType
+
+配置服务类型
+类型：String
+有效值：
+Sas：
+Sata：
+Ssd：
+PcieSsd：
+Memory：
+NetworkCard：
+Fpga：
+PcieAccessory：
+Gpu：
+Frame：
+是否必填：是
+AccessorySuit
+
+配置服务规格
+类型：String
+有效值：
+Sas-300GB
+Sas-600GB
+Sata-2TB
+Sata-4TB
+Sata-8TB
+Ssd-480GB
+Ssd-960GB
+SsdU.2-1TB
+SsdU.2-2TB
+SsdU.2-4TB
+SsdU.2-8TB
+PcieSsd-375GB
+PcieSsd-6.4TB
+Memory-16GB
+Memory-32GB
+NetworkCard-100GB
+Fpga-Arria10
+Pcie-Mlu100
+Gpu-GN1：P4
+Gpu-GN2：P40
+Gpu-GN3：V100
+Gpu-GND5：2080TI
+Gpu-GND6：TITAN V
+CpuFrame-1：
+CpuFrame-2：
+CpuFrame-3：
+GpuFrame-1：
+GpuFrame-2：
+GpuFrame-3：
+是否必填：否
+ChargeType
+
+计费类型
+PrePaidByMonth ：包年包月，有到期时间
+PostPaidByDay：按日月结，无到期时间
+类型： String
+是否必填：是
+ProjectId
+
+项目的ID
+类型: String
+是否可缺省: 是
+缺省值: 默认项目
+1.4.53.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Accessory
+
+物理配件信息
+类型：Accessory
+返回OpenAPI列表
+
+1.4.54. BuyAccessory(销售配件)
+1.4.54.1. Request Parameters(请求参数)
+AvailabilityZone
+
+可用区的名称
+类型:String
+是否必填：是
+AccessoryName
+
+配置服务名称
+类型:String
+是否必填：否
+缺省值：ksc_accessory
+AccessoryType
+
+配置服务类型
+类型：String
+有效值：
+Sas：
+Sata：
+Ssd：
+PcieSsd：
+Memory：
+NetworkCard：
+Fpga：
+PcieAccessory：
+Gpu：
+Frame：
+是否必填：是
+AccessorySuit
+
+配置服务规格
+类型：String
+有效值：
+Sas-300GB
+Sas-600GB
+Sata-2TB
+Sata-4TB
+Sata-8TB
+Ssd-480GB
+Ssd-960GB
+SsdU.2-1TB
+SsdU.2-2TB
+SsdU.2-4TB
+SsdU.2-8TB
+PcieSsd-375GB
+PcieSsd-6.4TB
+Memory-16GB
+Memory-32GB
+NetworkCard-100GB
+Fpga-Arria10
+Pcie-Mlu100
+Gpu-GN1：P4
+Gpu-GN2：P40
+Gpu-GN3：V100
+Gpu-GND5：2080TI
+Gpu-GND6：TITAN V
+CpuFrame-1：
+CpuFrame-2：
+CpuFrame-3：
+GpuFrame-1：
+GpuFrame-2：
+GpuFrame-3：
+是否必填：否
+ChargeType
+
+计费类型
+PrepaidByTime：按次先结，预付费
+PostpaidByTime：按次后结，后付费
+类型： String
+是否必填：是
+ProjectId
+
+项目的ID
+类型: String
+是否可缺省: 是
+缺省值: 默认项目
+1.4.54.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Accessory
+
+物理配件信息
+类型：Accessory
+返回OpenAPI列表
+
+1.4.55. DeleteAccessory(删除配件)
+1.4.55.1. Request Parameters(请求参数)
+AccessoryId
+
+物理配件的ID
+类型：String
+是否必填：是
+1.4.55.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.56. DescribeAccessorys(获取配件列表信息)
+1.4.56.1. Request Parameters(请求参数)
+AccessoryId.N
+
+物理配件的ID
+类型：String
+是否必填：否
+缺省值：查询region下的所有配件的信息
+Filter.N
+
+host-id：云物理主机的ID
+类型：Filter
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.56.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+AccessorySet
+
+物理配件的信息
+类型：Accessory List
+TotalCount
+
+云物理主机总数
+类型：Int
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+返回OpenAPI列表
+
+1.4.57. CreateRemoteManagement(创建带外管理)
+1.4.57.1. Request Parameters(请求参数)
+PhoneNumber
+
+手机号码
+类型：Integer
+是否必填：是
+Pin
+
+个人识别码
+类型：String
+是否必填：是
+Name
+
+姓名
+类型：String
+是否必填：否
+1.4.57.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+RemoteManagement
+
+云物理主机的资源ID
+类型：RemoteManagement
+返回OpenAPI列表
+
+1.4.57.3. Examples(举例)
+1.4.57.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=CreateRemoteManagement
+&PhoneNumber=15510320976
+&Pin=123456
+1.4.57.3.2. Sample Response(返回)
+<RemoteManagementResponse>
+    <RequestId>7f852395-c34e-4260-9d32-2fa664c28107</RequestId>
+    <RemoteManagementssss>
+        <RemoteManagementId>58386e87-5396-4b56-ae4e-9a261690448d</RemoteManagementId>
+        <PhoneNumber>15510320976</PhoneNumber>
+    </RemoteManagementssss>
+</RemoteManagementResponse>
+1.4.58. ModifyRemoteManagement(修改带外管理)
+1.4.58.1. Request Parameters(请求参数)
+RemoteManagementId
+
+带外管理的ID
+类型：String
+是否必填：是
+Name
+
+姓名
+类型：String
+是否必填：否
+1.4.58.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+RemoteManagement
+
+带外管理的信息
+类型：RemoteManagement
+返回OpenAPI列表
+
+1.4.58.3. Examples(举例)
+1.4.58.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=ModifyRemoteManagement
+&RemoteManagementId=66508a90-d8d0-4c20-97a7-2235a02c67e0
+&DynamicCode=353008
+&Pin=123456
+&NewPin=222222
+&NewPhoneNumber=15510320976
+1.4.58.3.2. Sample Response(返回)
+<RemoteManagementResponse>
+    <RequestId>8d1219f5-269f-474e-9604-8317d61dd7d2</RequestId>
+    <RemoteManagementssss>
+        <RemoteManagementId>66508a90-d8d0-4c20-97a7-2235a02c67e0</RemoteManagementId>
+        <PhoneNumber>15510320976</PhoneNumber>
+    </RemoteManagementssss>
+</RemoteManagementResponse>
+1.4.59. DeleteRemoteManagement(修改带外管理)
+1.4.59.1. Request Parameters(请求参数)
+RemoteManagementId
+
+带外管理的ID
+类型：String
+是否必填：是
+1.4.59.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.60. GetDynamicCode(获取验证码)
+1.4.60.1. Request Parameters(请求参数)
+RemoteManagementId
+
+带外管理的ID
+类型：String
+是否必填：是
+1.4.60.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+Return
+
+操作是否成功
+类型: Boolean
+返回OpenAPI列表
+
+1.4.60.3. Examples(举例)
+1.4.60.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=GetDynamicCode
+&RemoteManagementId=66508a90-d8d0-4c20-97a7-2235a02c67e0
+1.4.60.3.2. Sample Response(返回)
+<GetDynamicCodeResponse>
+    <RequestId>9400a230-303e-4afa-a985-2a0726e79f67</RequestId>
+    <Return>true</Return>
+</GetDynamicCodeResponse>
+1.4.61. DescribeRemoteManagements(查询带外管理信息)
+1.4.61.1. Request Parameters(请求参数)
+RemoteManagementId.N
+
+带外管理的ID
+类型：String
+是否必填：否
+缺省值：默认查询所有带外管理信息
+1.4.61.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+RemoteManagementSet
+
+带外管理的信息
+类型：RemoteManagement List
+返回OpenAPI列表
+
+1.4.61.3. Examples(举例)
+1.4.61.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribeRemoteManagements
+1.4.61.3.2. Sample Response(返回)
+<DescribeRemoteManagementsResponse>
+    <RequestId>11a0b425-ef4f-4133-aee0-ee46cd52cc51</RequestId>
+    <RemoteManagementSet>
+        <item>
+            <RemoteManagementId>66508a90-d8d0-4c20-97a7-2235a02c67e0</RemoteManagementId>
+            <PhoneNumber>15650760583</PhoneNumber>
+        </item>
+    </RemoteManagementSet>
+</DescribeRemoteManagementsResponse>
+1.4.62. DescribeEpcManagements(查询ILO信息)
+1.4.62.1. Request Parameters(请求参数)
+RemoteManagementId
+
+带外管理的ID
+类型：String
+是否必填：否
+缺省值：不填写以第一个带外管理ID校验
+EpcManagementId.N
+
+远程管理的ID
+类型：Integer
+是否必填：否
+DynamicCode
+
+动态码
+类型：String
+是否必填：是
+Pin
+
+个人识别码
+类型：String
+是否必填：是
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.62.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+EpcManagementSet
+
+远程管理的信息
+类型：EpcManagement List
+返回OpenAPI列表
+
+1.4.62.3. Examples(举例)
+1.4.62.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribeEpcManagements
+&DynamicCode=310421
+&Pin=123456
+1.4.62.3.2. Sample Response(返回)
+<DescribeEpcManagementsResponse>
+    <RequestId>bed6e7bd-7e31-4def-a59d-968f35a534a7</RequestId>
+    <TotalCount>2</TotalCount>
+    <EpcManagementSet>
+        <item>
+            <EpcManagementId>d2bb681c-dec8-45aa-8596-3ef584d925b7</EpcManagementId>
+            <EpcManagementIp>10.111.8.50</EpcManagementIp>
+            <EpcManagementUserName>u73404680</EpcManagementUserName>
+            <Password>pU4:F84}+6ucH97%</Password>
+            <HostName>ksyun</HostName>
+            <Sn>216412740</Sn>
+        </item>
+    </EpcManagementSet>
+</DescribeEpcManagementsResponse>
+1.4.63. DescribeVpns(查询VPN信息)
+1.4.63.1. Request Parameters(请求参数)
+RemoteManagementId
+
+带外管理的ID
+类型：String
+是否必填：否
+缺省值：不填写以第一个带外管理ID校验
+DynamicCode
+
+动态码
+类型：String
+是否必填：是
+Pin
+
+个人识别码
+类型：String
+是否必填：是
+1.4.63.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+UserName
+
+连接带外VPN的用户名
+类型：String
+是否必填：是
+Password
+
+连接带外VPN的密码，10分钟有效
+类型：String
+是否必填：是
+1.4.63.3. Examples(举例)
+1.4.63.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribeVpns
+&DynamicCode=077551
+&Pin=123456
+1.4.63.3.2. Sample Response(返回)
+<DescribeVpnsResponse>
+    <RequestId>3a455ab0-25af-426f-a66e-2a6235ef24a3</RequestId>
+    <UserName>u73404680</UserName>
+    <Password>444439</Password>
+</DescribeVpnsResponse>
+1.4.64. DescribeCertificates(查询VPN证书信息)
+1.4.64.1. Request Parameters(请求参数)
+1.4.64.2. Response Elements(返回值)
+RequestId
+
+请求接口时传递过来的，用户跟踪问题
+类型：String
+
+返回OpenAPI列表
+
+1.4.64.3. Examples(举例)
+1.4.64.3.1. Sample Request(请求)
+http://epc.region.api.ksyun.com/?Version=2015-11-01
+&Action=DescribeCertificates
+1.4.64.3.2. Sample Response(返回)
+PKϜ[K���B�Zu73404680.ovpnUT    ��Y��Yux]�QN�0��#���K�v�<��    v��34�K�ĭ���d��������iv�E�#� ��*� ��V�OA:�6/��7M�0}���0��X���p�    k����cq��]��������[-���۱}"�P* N� ��nD�{\��,�3�E���*A�{�, dN+����    ^��h6[ܽ�*��3�ql[�
+y�A���>���L�q����R,1ڜ��PK
+Ϝ[K
+u73404680/UT    ��Y��YuxPKϜ[K�-2�v�u73404680/ca.crtUT    ��Y��Yuxe��Ң:��<Eϩ��a��2ST�����=:�;�Ԫ��]���~>b�ؿv}�|���U�\��@P��r���m��u��t��E�b��X�{�>�aa���q�Ga�R:�(�RAy<���m�����d��l/d��Z&�'����+p��zҦ���P���p�j���?�6�TIlXԯk]���CP�� @��k@��sǠ�f��<ۭ�ܰ������>����    ݹk�g��n�9~�I�ڞL����}nvG�u��7���|Y�^���2Ou�hu���:j���q�0
+�x���i���]��g669m��VEr�E7^��ڃt��    .c;
+n���A4|��o��\���j�E#!;����Cv��`�T[*�"K�)�)�h�����-3ÔY�8i����TG�p�76�@��\�_�ס��v�?�
+�.����|����a��nܵ�J��4�a���jE�.{�.c��k�KY�w��e"*�6������ �3@2������iC�h㸗Cw���X�
+�_hv��]�Ө�x��/�?!?�N,���0x[��$��
+�J��~Q�������2<Q���턾p�������|��g(�т�5��R�HT��r^{���c����#[������Y
+��¯�������j�V�S�/J���ǇE�{�lҳ�|sҼ���!/���L{�z`�;��ǋq�xZa�Y���f��^n��89Ϋ҇�������ƺ��J�'�9��8u[j��+]u��yB��Aي;��a��Y�    n3��_���fks�*�H�'�2��    �Z�U��[���f��Di�S��i�s��0k���n�D"g�Aa�?���Mr��Us@/��.itX���oz��?{�꿻�7PKϜ[KTl꜁    mu73404680/u73404680.crtUT    ��Y��Yux�W�r��}�+�8Ą�/qJ���f��J*a���f�g�qύ�
+G�PUe�r��lO�"/ҤА���2��F�\O�~�&�!_�?.LıH��������~zT�4v�
+vF
+�
+<���Av@�!��[�>;)V��<�Ķ���(_�@:�&�a>������x=�����:��/�����r6���'�G�c�H�EV��O����|
+�RR-IQ@�Au$UV,�՟~9��R%���(�Ƨ���3_����:[�.��-��*��|[�R$�Rg��?��n�.�S� ����g@�C�u[�E���m�}vޞO�e�Y����% 1 �@N�k%4*�
+�
+p��#�ͦ��<�?4k&`k�w��=����+`����h:$:�    ��T,P�I��!MA��p0
+�C���A�
+4�vв��BX7�.�+�D��R4���B�� �<��RAQ(s���c�U�]�<ؐj` �m���l��6p���4�d
+
+[ʑ���$�1�������l�〮R!rD�
+�AnۂbĄ8T��F��lf̤�x�p���g��t�<s[$^7��vJ�8�t�N[�3 �&�!2�    N�p��(�!�r��Aq('�N�zhk-�ZV!ˈ��m��A-'Tc�����L�qݡ\a;`�p�Q�B�
+e߹A�ߠ��5���������`g!2�f����>���    �B���ϭ�Ť�8�
+y���
+=�z�5���A�:���`h1�7>��JJ!c��%
+;눀��Ђ�C��5����~'vș�ahi�"˲�����|h���bG������&'�M��cR��H_����7    ����kV��!�FR�/F4l��%t�vAv��)��A��=�+�����}~�`���e���X���oވk�}1L� a3��+�����@'�<t0K!ֲ4�/��8H�<������j�W��E�.h��6P�2�ձ�N�J<kڛHςK޶����Pp.�]����o��bU�8���*��C25Pr��f}�DlelVn��,�Fe)�
+I�����W�h�gdi�2ܑ�;�!REa�lF��I� O":�<���-�M?��Ɉ��=q��8�K�^`O}���sz��Ԕ���GB    vM��5���(:��:��D}��ֺS�B����H�)�I������ڊ�p
+JT��L��Jm"/%�C�ʢSTDq�ȑ�MT�Z�L�ᐫ*q'z���k����uE��_瑬p&AjE5$��i+R�a������F�J��F�{5Ě��O896�
+�Ш�*��4).̎�QFќs
+�=(\!N@(\J-��K=%���2�B&O����i��(4�-l(a
+M#�Q]��5p�F����=~~<�0�� #H0�(�HMx�F����ʄ������Q�P�*��J�OA^O��N�rj���?��Lx>�K4��<���������pTC�i�ݧ�9��S    ���RS0�vǦA����t������\����U'�~T��������n�Hō
+����uS��JvY|
+��x�?�Ta���q��7S��iᆳ���o�a'�}W_��@�O�up.���:��������u0���
+�`�wY�)��]��l��>��U�޺��gO,BƆ�mF�U��S��<di���k}��ܗ��66����Z��K{*Yi�y�q{��y4���t�[L��a�_�=r���e���m<��y�Y���o�՛�ZC���˫���;��x�m��;�'׫?M�s�    O�l�M���ǣ��Xo���NV��6n�}c�}�O3�x�������j����>�u?�H��yc�m��/�D���W�&�QT<y�Q:~o=��qTY�-�́��g���v������Z��ls�/��ǯO���$���[��F������P�Z�Ix�.,e����_W�~/�b���!��y��Y�ܽ�J���K�mZ
+,WT��g�jǈ��<t�e�a�#��β�Ηn����=^�����Y��~��%J>>��r�K����f��\6�Q�77�)���q���j�Nz�ݼ]_z�MT�G[�U��Zv�j��񬍐��k���g+��Lny��֤�5?\��1�co���ݜN���\������a"���}0ɻ�E�)�s�xu��KZ��/Qh��p6�jow�ׇ��ړ�;ԧA����M5��g
+7�hM��T֫�<���緩n�z<ڥ޲���"���\ߊ|�]n�k3��X�n;v���o������K�.n�
+�����i���W�kTFW��n��b�U�����t����vc�����C�W��0�F�Mqy2�¾vg�rw��e��������l6�e��8��9Y�~�m�!�·���,�����?"V��Ӷ�W���^�b�;<�7�T����|�����
+�W��/PKϜ[K��82"�u73404680/u73404680.keyUT    ��Y��Yuxe����h�s�bs4�4
+t0��7�ol���5<�ޙ
+��R��S�T�_�~��EY�Ǵe|�T>���i�����L��U[��e��8,��gY:(yƟ9������s��ݬ!����!j$�Ӿ� �6�؁��:�#z�e�ď��M�L�'�uǉ`�n    ?E!݉���ʶ���%1-i%t^�^�4���p^��
+����e]?Eb�����U�1S��G926iة����D1�um����\J���Hݣaٸr?Wi�ݨ9�S,hT�8.pS�w�S������M�Pm�m�n��I�#qE*����p��a���B�ܓ�WG��2�����q��@��\�c`�q%|W��    �B2��FO�
+u; 8��@�1�lY�P�&"���~�ց�*�SܬU�k��G���c��}�QG�A�J�7ݮ�MQ+}�    �e*fY�$��>�G}'���P漈��P�k��~&ɒ�[|���9�CLF4~wK䔀�.ᕃ/�v�#D�eH�yB!Lj�_���\*���n4"
+��v/�C�_���X���b)�Uk���yA+��؞��&�4�$Q���N@!��U���kV���F�t�"��w"��    �S�p)    E��!CY���[����`�[]����򀖥�J$ڹ��B��������_N��IG� )�Ph�[|�82��t�b��j6�����D��=q(��~k���Pu�}�#�b�=NSb}R9���C�M��΍��?k����: _�ڞEn�$�Z��nH�������L��:�qۖ�����k��p5LW�5����$k�� �٨)�2�'D�T��Su���%EB�
+����E�&Cr�ڐʒ-S�������,�\��g���#z��������MՑ���?
+\��q�I`���o��#g7��ǈk:\Jl���e��nց��r�O+�&�����Yo��6w{�Be�;Pg����%/m�d�$kx���iZ�V�I��Q    �~�u+�v�h|`<RM�}��wr�E�%��k)N�A�{�����������`��>S�e���k�ĥ�=�+��L�_�e���y��n��H�0�L�@r/H̪��oPgx��j��l��.�;s��p�S���
+{O��W�a�� �|��Y
+�?-�4;Uml_�slMor�~)�D��oB����[x��2CY�ФJ��-���C�Mb�-�#���/��&9~��B�#|���k(�V@ɻ1�mv�
+���z�����u�*ސ��k���~���C���1�u����V�q�w����(!,�%�r�J�{����5AY��    bhO��߿���������_PKϜ[K�C�~|u73404680/ta.keyUT    ��Y��Yux}Rͪ@��S|pׁ:�8�(��-��3Bt7�}SA�ty�x<�4�l�������|�������_�����9�ƫ���������O���g����gQTSme�ް���XPL��^��TR�t�:D��:��s�v��l�F�j��Ah�Gv*�܄E��    ѽ[y�Hn86    zb���a�fz�1]��AB�VE�"�f5Zy%$�J�y버��,����ҭL��57@Hy�1����=����p���t���V�j�˔�qHX|
+��#��g���h)�^�����:�zL�^��Z~��h0��x������u���+U��Ϋ�>��å
+y���D����i�:��Nt\�\�����i�:6$����� N��$������o��3�PKϜ[K���B�Z��u73404680.ovpnUT��YuxPK
+Ϝ[K
+�Au73404680/UT��YuxPKϜ[K�-2�v���bu73404680/ca.crtUT��YuxPKϜ[KTl꜁    m��"u73404680/u73404680.crtUT��YuxPKϜ[K��82"����u73404680/u73404680.keyUT��YuxPKϜ[K�C�~|��gu73404680/ta.keyUT��YuxPK
+/
+返回OpenAPI列表
+
+1.4.65. CreateCabinet (创建机柜)
+1.4.65.1. Request Parameters(请求参数)
+CabinetName
+
+云物理主机托管机柜名称，默认为Cabinet
+类型：String
+是否必填：否
+缺省值：Cabinet
+格式：2-128个字符，支持中英文数字特殊符号
+ChargeType
+
+主机计费类型，按日月结Daily
+有效值：
+PrePaidByMonth ：包年包月，有到期时间
+PostPaidByDay：按日月结，无到期时间
+类型： String
+是否必填：是
+CabinetType
+
+云物理主机托管机柜类型，托管机柜Normal，预留机柜Reserved
+类型：String
+有效值：
+Normal：标准托管租赁
+Reserved：预留机柜
+AvailabilityZone
+
+可用区的名称
+类型:String
+是否可缺省: 是
+PurchaseTime
+
+购买时长
+类型：Integer
+可取值：1-36
+是否必填：否
+1.4.65.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+CabinetId
+
+托管机柜ID
+类型：String
+返回OpenAPI列表
+
+1.4.66. DescribeCabinets(获取云物理主机托管机柜列表信息)
+1.4.66.1. Request Parameters(请求参数)
+CabinetId.N
+
+托管机柜ID，如果有ID则查询具体机柜，如果没有ID则查询机柜列表信息
+类型：String
+是否必填：否
+MaxResults
+
+单次调用可返回的最大条目数量. 传入返回的 NextToken 值可以获取剩余的其它条目. 这个值可以允许的范围是 5- 1000.
+类型: Integer
+是否必填：否
+NextToken
+
+获取另一页返回结果的 token.
+类型: String
+是否必填：否
+1.4.66.2. Response Elements(返回值)
+RequestId
+
+请求ID
+类型：String
+CabinetSet
+
+托管机柜资源列表
+类型：Cabinet List
+TotalCount
+
+托管机柜总数
+类型：Int
+返回OpenAPI列表

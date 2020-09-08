@@ -1,32 +1,23 @@
 package com.ksc.epc.model;
 
+import com.ksc.internal.SdkInternalList;
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Data
 public class BaseResult {
 
     private String requestId;
 
     private Boolean result;
 
-    public String getRequestId() {
-        return requestId;
-    }
+    private SdkInternalList<String> epcIds;
 
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
+    private Cpu cpu;
 
-    public Boolean getResult() {
-        return result;
-    }
+    private SdkInternalList<EpcHost> epcHosts;
 
-    public void setResult(Boolean result) {
-        this.result = result;
-    }
+    private BigDecimal price;
 
-    @Override
-    public String toString() {
-        return "BaseResult{" +
-                "requestId='" + requestId + '\'' +
-                ", result=" + result +
-                '}';
-    }
 }

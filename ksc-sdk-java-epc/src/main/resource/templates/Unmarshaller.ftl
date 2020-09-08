@@ -9,11 +9,19 @@ import static com.fasterxml.jackson.core.JsonToken.VALUE_NULL;
 <#if haveList??>
 import com.ksc.transform.ListUnmarshaller;
 </#if>
+<#if haveSimpleList??>
+import com.ksc.transform.SimpleTypeJsonUnmarshallers;
+</#if>
 import com.fasterxml.jackson.core.JsonToken;
 <#-- list类型中的泛型-->
 <#if beanTypes??>
 <#list beanTypes as type>
-import com.ksc.model.${type};
+import com.ksc.epc.model.${type};
+</#list>
+</#if>
+<#if otherImport??>
+<#list otherImport as import>
+${import};
 </#list>
 </#if>
 import com.ksc.epc.model.${resultType};
@@ -52,10 +60,20 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 				}
 				</#list>
 				</#if>
-				<#-- list类型成员,泛型为基本型或string-->
-				<#if listMembers??>
-				<#list listMembers as member>
-				if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+				<#-- list类型成员,泛型不为javabean  取值范围见ClassUtils.classes-->
+				<#if simpleListMembers??>
+				<#list simpleListMembers as member>
+				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+					context.nextToken();
+					result.set${member.name?cap_first}(new ListUnmarshaller<${member.genericsClassName}>(
+							SimpleTypeJsonUnmarshallers.${member.genericsClassName}JsonUnmarshaller.getInstance()).unmarshall(context));
+				}
+				</#list>
+				</#if>
+				<#-- list类型成员,泛型为javabean-->
+				<#if beanListMembers??>
+				<#list beanListMembers as member>
+				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
 					result.set${member.name?cap_first}(
 							new ListUnmarshaller<${member.genericsClassName}>(${member.genericsClassName}JsonUnmarshaller.getInstance()).unmarshall(context));

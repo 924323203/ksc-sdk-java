@@ -16,7 +16,7 @@ public class Member {
 
     private boolean ifList;
 
-    //是否为基本类型,string list之外的类型
+    //是否为javabean类型
     private boolean ifBean;
 
     private boolean ifFilter = false;
@@ -24,6 +24,6 @@ public class Member {
     //泛型类
     private String genericsClassName;
 
-    //泛型是否为基本类型,string list之外的类型
+    //泛型是否为javabean类型
     private boolean genericsIfBean;
 }

@@ -3,7 +3,6 @@ package com.ksc.epc.generator;
 import com.ksc.epc.generator.model.InterfaceInfo;
 import com.ksc.epc.generator.model.Member;
 import com.ksc.epc.model.BaseResult;
-import com.ksc.epc.model.OpsEpcRequest;
 import com.ksc.util.CollectionUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -15,11 +14,8 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
-import java.net.FileNameMap;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -87,10 +83,10 @@ public class TemplateUtils {
         while ((line = reader.readLine()) != null) {
             String[] infos = line.split(",");
             InterfaceInfo interfaceInfo = new InterfaceInfo();
-            interfaceInfo.setReturnType(infos[0]);
-            interfaceInfo.setAction(infos[1]);
-            interfaceInfo.setParamType(infos[2]);
-            interfaceInfo.setJavadoc(infos[3]);
+            interfaceInfo.setReturnType(infos[2]);
+            interfaceInfo.setAction(infos[0]);
+            interfaceInfo.setParamType(infos[0] + "Request");
+            interfaceInfo.setJavadoc(infos[1]);
             interfaceInfos.add(interfaceInfo);
         }
         reader.close();
@@ -140,17 +136,26 @@ public class TemplateUtils {
         //获取所有成员
         List<Member> members = ClassUtils.findMembers(clazz);
         List<Member> simpleMembers = new ArrayList<>();
-        List<Member> listMembers = new ArrayList<>();
+        List<Member> simpleListMembers = new ArrayList<>();
+        List<Member> beanListMembers = new ArrayList<>();
+        List<String> otherImport = new ArrayList<>();
         //javabean类型和集合类的泛型
         Set<String> beanTypes = new HashSet<>();
         for (Member member : members) {
+            if (member.getType().equals("BigDecimal")) {
+                otherImport.add("import java.math.BigDecimal");
+            }
+
             if (member.isIfList()) {
-                listMembers.add(member);
-                //javabean类型的list
+                //是否为javabean类型的list
                 if (member.isGenericsIfBean()) {
+                    beanListMembers.add(member);
                     beanTypes.add(member.getGenericsClassName());
+                } else {
+                    simpleListMembers.add(member);
                 }
             } else if (member.isIfBean()) {
+                simpleMembers.add(member);
                 beanTypes.add(member.getType());
             } else {
                 simpleMembers.add(member);
@@ -165,9 +170,17 @@ public class TemplateUtils {
         if (!CollectionUtils.isNullOrEmpty(beanTypes)) {
             dataMap.put("beanTypes", beanTypes);
         }
-        if (!CollectionUtils.isNullOrEmpty(listMembers)) {
-            dataMap.put("listMembers", listMembers);
+        if (!CollectionUtils.isNullOrEmpty(beanListMembers)) {
+            dataMap.put("beanListMembers", beanListMembers);
             dataMap.put("haveList", true);
+        }
+        if (!CollectionUtils.isNullOrEmpty(beanListMembers)) {
+            dataMap.put("simpleListMembers", simpleListMembers);
+            dataMap.put("haveList", true);
+            dataMap.put("haveSimpleList", true);
+        }
+        if (!CollectionUtils.isNullOrEmpty(otherImport)) {
+            dataMap.put("otherImport", otherImport);
         }
         //输出java文件
         File marshaller = new File(

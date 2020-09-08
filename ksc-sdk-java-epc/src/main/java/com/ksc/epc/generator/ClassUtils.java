@@ -8,6 +8,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ import java.util.List;
  */
 public class ClassUtils {
     public static Class[] classes = new Class[]{String.class, Byte.class, Short.class,
-            Integer.class, Long.class, Float.class, Double.class, Character.class, Boolean.class, List.class};
+            Integer.class, Long.class, Float.class, Double.class, Character.class, Boolean.class, List.class,
+            BigDecimal.class};
 
     /**
      * 获取指定包下的全部类
