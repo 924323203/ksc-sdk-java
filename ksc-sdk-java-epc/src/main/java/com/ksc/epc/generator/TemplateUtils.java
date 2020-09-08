@@ -2,7 +2,6 @@ package com.ksc.epc.generator;
 
 import com.ksc.epc.generator.model.InterfaceInfo;
 import com.ksc.epc.generator.model.Member;
-import com.ksc.epc.model.BaseResult;
 import com.ksc.util.CollectionUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -70,6 +69,20 @@ public class TemplateUtils {
         for (InterfaceInfo interfaceInfo : interfaceInfos) {
             generateMarshaller(Class.forName("com.ksc.epc.model." + interfaceInfo.getParamType()),
                     interfaceInfo.getAction());
+        }
+    }
+
+    /**
+     *  生成所有Marshaller
+     * @param classes class
+     */
+    public static void generateAllUInmarshaller(List<Class> classes) throws Exception {
+        //获取接口信息
+        for (Class clazz : classes) {
+            if(!clazz.getSimpleName().endsWith("result")){
+                continue;
+            }
+            generateUnmarshaller(clazz);
         }
     }
 
@@ -184,7 +197,7 @@ public class TemplateUtils {
         }
         //输出java文件
         File marshaller = new File(
-                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/test/" + clazz.getSimpleName() + "JsonUnmarshaller.java");
+                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/model/" + clazz.getSimpleName() + "JsonUnmarshaller.java");
         createFileFromTemplate(marshaller, dataMap, "Unmarshaller.ftl");
     }
 
@@ -213,7 +226,7 @@ public class TemplateUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        generateUnmarshaller(BaseResult.class);
+        //generateUnmarshaller(BaseResult.class);
         //generateMarshaller(OpsEpcRequest.class,"RebootEpc");
         //generateMethod();
     }
