@@ -3,10 +3,7 @@ package com.ksc.epc;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import com.ksc.auth.AWSCredentials;
-import com.ksc.auth.BasicAWSCredentials;
-import com.ksc.epc.model.ListEpcsRequest;
-import com.ksc.epc.model.ListEpcsResult;
+
 
 public class KSCEPCClientTest {
 	private static final Logger log = Logger.getLogger(KSCEPCClientTest.class);
