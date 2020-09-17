@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class Member {
-    private String type;
+    private Class type;
 
     private String name;
 
@@ -22,7 +22,7 @@ public class Member {
     private boolean ifFilter = false;
 
     //泛型类
-    private String genericsClassName;
+    private Class genericsClass;
 
     //泛型是否为javabean类型
     private boolean genericsIfBean;

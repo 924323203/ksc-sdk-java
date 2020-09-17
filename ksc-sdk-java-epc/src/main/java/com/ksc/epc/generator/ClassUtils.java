@@ -20,10 +20,6 @@ import java.util.List;
  * @Date 2020-09-03 10:28
  */
 public class ClassUtils {
-    public static Class[] classes = new Class[]{String.class, Byte.class, Short.class,
-            Integer.class, Long.class, Float.class, Double.class, Character.class, Boolean.class, List.class,
-            BigDecimal.class};
-
     /**
      * 获取指定包下的全部类
      *
@@ -72,9 +68,9 @@ public class ClassUtils {
             }
             Member member = new Member();
             member.setName(field.getName());
-            member.setType(field.getType().getSimpleName());
+            member.setType(field.getType());
             //是否是javabean
-            member.setIfBean(!Arrays.asList(ClassUtils.classes).contains(field.getType()));
+            member.setIfBean(field.getType().getName().startsWith("com.ksc"));
             //是否为List
             if (field.getType().equals(SdkInternalList.class)) {
                 Type type = ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
@@ -83,8 +79,8 @@ public class ClassUtils {
                     member.setIfFilter(true);
                 }
                 member.setIfList(true);
-                member.setGenericsClassName(((Class) type).getSimpleName());
-                member.setGenericsIfBean(!Arrays.asList(ClassUtils.classes).contains((type)));
+                member.setGenericsClass(((Class) type));
+                member.setGenericsIfBean(field.getType().getName().startsWith("com.ksc"));
             } else {
                 member.setIfList(false);
             }

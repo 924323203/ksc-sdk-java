@@ -18,7 +18,7 @@ public class FileUtils {
         File openApi = new File(TemplateUtils.class.getResource("/openapi.txt").getPath());
         File csv = new File("ksc-sdk-java-epc/src/main/resource/interface.csv");
         PrintWriter writer = new PrintWriter(
-                new OutputStreamWriter(new FileOutputStream(csv, true), StandardCharsets.UTF_8));
+                new OutputStreamWriter(new FileOutputStream(csv, false), StandardCharsets.UTF_8));
         BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(openApi),
                 StandardCharsets.UTF_8));
         String line;

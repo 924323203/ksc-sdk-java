@@ -73,13 +73,14 @@ public class TemplateUtils {
     }
 
     /**
-     *  生成所有Marshaller
+     * 生成所有Marshaller
+     *
      * @param classes class
      */
     public static void generateAllUInmarshaller(List<Class> classes) throws Exception {
         //获取接口信息
         for (Class clazz : classes) {
-            if(!clazz.getSimpleName().endsWith("result")){
+            if (!clazz.getSimpleName().endsWith("result")) {
                 continue;
             }
             generateUnmarshaller(clazz);
@@ -151,25 +152,28 @@ public class TemplateUtils {
         List<Member> simpleMembers = new ArrayList<>();
         List<Member> simpleListMembers = new ArrayList<>();
         List<Member> beanListMembers = new ArrayList<>();
-        List<String> otherImport = new ArrayList<>();
+        Set<String> otherImport = new HashSet<>();
         //javabean类型和集合类的泛型
         Set<String> beanTypes = new HashSet<>();
         for (Member member : members) {
-            if (member.getType().equals("BigDecimal")) {
-                otherImport.add("import java.math.BigDecimal");
+            if (!member.getType().getName().startsWith("java.lang")) {
+                otherImport.add("import " + member.getType().getName());
             }
 
             if (member.isIfList()) {
                 //是否为javabean类型的list
                 if (member.isGenericsIfBean()) {
                     beanListMembers.add(member);
-                    beanTypes.add(member.getGenericsClassName());
+                    beanTypes.add(member.getGenericsClass().getSimpleName());
                 } else {
+                    if (!member.getGenericsClass().getName().startsWith("java.lang")) {
+                        otherImport.add("import " + member.getType().getName());
+                    }
                     simpleListMembers.add(member);
                 }
             } else if (member.isIfBean()) {
                 simpleMembers.add(member);
-                beanTypes.add(member.getType());
+                beanTypes.add(member.getType().getSimpleName());
             } else {
                 simpleMembers.add(member);
             }
