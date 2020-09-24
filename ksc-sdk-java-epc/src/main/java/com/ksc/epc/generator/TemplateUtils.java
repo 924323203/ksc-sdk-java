@@ -97,7 +97,7 @@ public class TemplateUtils {
         while ((line = reader.readLine()) != null) {
             String[] infos = line.split(",");
             InterfaceInfo interfaceInfo = new InterfaceInfo();
-            interfaceInfo.setReturnType(infos[2]);
+            interfaceInfo.setReturnType(infos[0]+"Result");
             interfaceInfo.setAction(infos[0]);
             interfaceInfo.setParamType(infos[0] + "Request");
             interfaceInfo.setJavadoc(infos[1]);

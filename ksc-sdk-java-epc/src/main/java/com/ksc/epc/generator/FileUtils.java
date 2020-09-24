@@ -32,7 +32,7 @@ public class FileUtils {
             if (line.trim().startsWith("1.4.") && count == 3) {
                 String action = line.substring(line.lastIndexOf(".") + 1, line.indexOf("(")).trim();
                 String desc = line.substring(line.lastIndexOf("(") + 1, line.indexOf(")")).trim();
-                writer.println(action + "," + desc + ",");
+                writer.println(action + "," + desc);
             }
         }
         writer.close();
