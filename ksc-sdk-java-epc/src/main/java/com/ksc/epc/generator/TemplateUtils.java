@@ -2,6 +2,7 @@ package com.ksc.epc.generator;
 
 import com.ksc.epc.generator.model.InterfaceInfo;
 import com.ksc.epc.generator.model.Member;
+import com.ksc.epc.model.DescribeEpcResult;
 import com.ksc.util.CollectionUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -15,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -67,8 +69,13 @@ public class TemplateUtils {
         //获取接口信息
         List<InterfaceInfo> interfaceInfos = formatInterfaceInfo();
         for (InterfaceInfo interfaceInfo : interfaceInfos) {
-            generateMarshaller(Class.forName("com.ksc.epc.model." + interfaceInfo.getParamType()),
-                    interfaceInfo.getAction());
+            Class clazz;
+            try {
+                clazz=Class.forName("com.ksc.epc.model." + interfaceInfo.getParamType());
+            } catch (Exception e){
+                continue;
+            }
+            generateMarshaller(clazz, interfaceInfo.getAction());
         }
     }
 
@@ -77,10 +84,10 @@ public class TemplateUtils {
      *
      * @param classes class
      */
-    public static void generateAllUInmarshaller(List<Class> classes) throws Exception {
+    public static void generateAllUnmarshaller(List<Class> classes) throws Exception {
         //获取接口信息
         for (Class clazz : classes) {
-            if (!clazz.getSimpleName().endsWith("result")) {
+            if (!clazz.getSimpleName().endsWith("Result")) {
                 continue;
             }
             generateUnmarshaller(clazz);
@@ -191,7 +198,7 @@ public class TemplateUtils {
             dataMap.put("beanListMembers", beanListMembers);
             dataMap.put("haveList", true);
         }
-        if (!CollectionUtils.isNullOrEmpty(beanListMembers)) {
+        if (!CollectionUtils.isNullOrEmpty(simpleListMembers)) {
             dataMap.put("simpleListMembers", simpleListMembers);
             dataMap.put("haveList", true);
             dataMap.put("haveSimpleList", true);
@@ -201,7 +208,7 @@ public class TemplateUtils {
         }
         //输出java文件
         File marshaller = new File(
-                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/model/" + clazz.getSimpleName() + "JsonUnmarshaller.java");
+                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/model/transform/" + clazz.getSimpleName() + "JsonUnmarshaller.java");
         createFileFromTemplate(marshaller, dataMap, "Unmarshaller.ftl");
     }
 
@@ -233,5 +240,8 @@ public class TemplateUtils {
         //generateUnmarshaller(BaseResult.class);
         //generateMarshaller(OpsEpcRequest.class,"RebootEpc");
         //generateMethod();
+
+        //生成所有
+        generateAllUnmarshaller(Collections.singletonList(DescribeEpcResult.class));
     }
 }

@@ -33,7 +33,7 @@ public class ${requestType}Marshaller implements Marshaller<Request<${requestTyp
 		<#if members??>
 		<#list members as member>
 		if (${requestType?uncap_first}.get${member.name?cap_first}() != null) {
-			request.addParameter("${member.name?cap_first}", StringUtils.from${member.type}(${requestType?uncap_first}.get${member.name?cap_first}()));
+			request.addParameter("${member.name?cap_first}", StringUtils.from${member.type.simpleName}(${requestType?uncap_first}.get${member.name?cap_first}()));
 		}
 		</#list>
 		</#if>
@@ -65,12 +65,12 @@ public class ${requestType}Marshaller implements Marshaller<Request<${requestTyp
 		<#-- list类型成员-->
 		<#if listMembers??>
 		<#list listMembers as member>
-		SdkInternalList<${member.genericsClassName}> ${member.name}List = ${requestType?uncap_first}.get${member.name?cap_first}();
+		SdkInternalList<${member.genericsClass.simpleName}> ${member.name}List = ${requestType?uncap_first}.get${member.name?cap_first}();
         if (!${member.name}List.isEmpty() || !${member.name}List.isAutoConstruct()) {
 			int index = 1;
             for (String value : ${member.name}List) {
 				if (value != null) {
-					request.addParameter("${member.name?cap_first?substring(0,member.name?length-1)}." + index, StringUtils.from${member.genericsClassName}(value));
+					request.addParameter("${member.name?cap_first?substring(0,member.name?length-1)}." + index, StringUtils.from${member.genericsClass.simpleName}(value));
                 }
             	index++;
             }

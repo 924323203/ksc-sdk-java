@@ -56,7 +56,7 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 				<#list members as member>
 				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
-					result.set${member.name?cap_first}(context.getUnmarshaller(${member.type}.class).unmarshall(context));
+					result.set${member.name?cap_first}(context.getUnmarshaller(${member.type.simpleName}.class).unmarshall(context));
 				}
 				</#list>
 				</#if>
@@ -65,8 +65,8 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 				<#list simpleListMembers as member>
 				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
-					result.set${member.name?cap_first}(new ListUnmarshaller<${member.genericsClassName}>(
-							SimpleTypeJsonUnmarshallers.${member.genericsClassName}JsonUnmarshaller.getInstance()).unmarshall(context));
+					result.set${member.name?cap_first}(new ListUnmarshaller<${member.genericsClass.simpleName}>(
+							SimpleTypeJsonUnmarshallers.${member.genericsClass.simpleName}JsonUnmarshaller.getInstance()).unmarshall(context));
 				}
 				</#list>
 				</#if>
@@ -76,7 +76,7 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
 					result.set${member.name?cap_first}(
-							new ListUnmarshaller<${member.genericsClassName}>(${member.genericsClassName}JsonUnmarshaller.getInstance()).unmarshall(context));
+							new ListUnmarshaller<${member.genericsClass.simpleName}>(${member.genericsClass.simpleName}JsonUnmarshaller.getInstance()).unmarshall(context));
 				}
 				</#list>
 				</#if>
