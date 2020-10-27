@@ -14,14 +14,9 @@ import com.ksc.transform.SimpleTypeJsonUnmarshallers;
 </#if>
 import com.fasterxml.jackson.core.JsonToken;
 <#-- list类型中的泛型-->
-<#if beanTypes??>
-<#list beanTypes as type>
-import com.ksc.epc.model.${type};
-</#list>
-</#if>
-<#if otherImport??>
-<#list otherImport as import>
-${import};
+<#if imports??>
+<#list imports as import>
+import ${import};
 </#list>
 </#if>
 import com.ksc.epc.model.${resultType};
@@ -47,14 +42,10 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 			if (token == null)
 				break;
 			if (token == FIELD_NAME || token == START_OBJECT) {
-				if (context.testExpression("RequestId", targetDepth)) {
-					context.nextToken();
-					result.setRequestId(context.getUnmarshaller(String.class).unmarshall(context));
-				}
 				<#-- 非list类型类型成员-->
 				<#if members??>
 				<#list members as member>
-				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+				if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
 					result.set${member.name?cap_first}(context.getUnmarshaller(${member.type.simpleName}.class).unmarshall(context));
 				}
@@ -63,20 +54,20 @@ public class ${resultType}JsonUnmarshaller implements Unmarshaller<${resultType}
 				<#-- list类型成员,泛型不为javabean  取值范围见ClassUtils.classes-->
 				<#if simpleListMembers??>
 				<#list simpleListMembers as member>
-				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+				if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
-					result.set${member.name?cap_first}(new ListUnmarshaller<${member.genericsClass.simpleName}>(
-							SimpleTypeJsonUnmarshallers.${member.genericsClass.simpleName}JsonUnmarshaller.getInstance()).unmarshall(context));
+					result.set${member.name?cap_first}(new SdkInternalList<>(new ListUnmarshaller<${member.genericsClass.simpleName}>(
+							SimpleTypeJsonUnmarshallers.${member.genericsClass.simpleName}JsonUnmarshaller.getInstance()).unmarshall(context)));
 				}
 				</#list>
 				</#if>
 				<#-- list类型成员,泛型为javabean-->
 				<#if beanListMembers??>
 				<#list beanListMembers as member>
-				else if (context.testExpression("${member.name?cap_first}", targetDepth)) {
+				if (context.testExpression("${member.name?cap_first}", targetDepth)) {
 					context.nextToken();
 					result.set${member.name?cap_first}(
-							new ListUnmarshaller<${member.genericsClass.simpleName}>(${member.genericsClass.simpleName}JsonUnmarshaller.getInstance()).unmarshall(context));
+							new SdkInternalList<>(new ListUnmarshaller<${member.genericsClass.simpleName}>(${member.genericsClass.simpleName}JsonUnmarshaller.getInstance()).unmarshall(context)));
 				}
 				</#list>
 				</#if>

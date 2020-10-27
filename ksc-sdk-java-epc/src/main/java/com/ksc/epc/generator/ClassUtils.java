@@ -78,7 +78,7 @@ public class ClassUtils {
                 }
                 member.setIfList(true);
                 member.setGenericsClass(((Class) type));
-                member.setGenericsIfBean(field.getType().getName().startsWith("com.ksc"));
+                member.setGenericsIfBean(((Class) type).getName().startsWith("com.ksc"));
             } else {
                 member.setIfList(false);
             }

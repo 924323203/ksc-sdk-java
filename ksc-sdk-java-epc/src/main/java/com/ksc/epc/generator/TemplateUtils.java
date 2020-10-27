@@ -159,28 +159,29 @@ public class TemplateUtils {
         List<Member> simpleMembers = new ArrayList<>();
         List<Member> simpleListMembers = new ArrayList<>();
         List<Member> beanListMembers = new ArrayList<>();
-        Set<String> otherImport = new HashSet<>();
-        //javabean类型和集合类的泛型
-        Set<String> beanTypes = new HashSet<>();
+        //javabean类型和集合类的泛型+其他非lang包的类
+        Set<String> imports = new HashSet<>();
         for (Member member : members) {
             if (!member.getType().getName().startsWith("java.lang")) {
-                otherImport.add("import " + member.getType().getName());
+                imports.add(member.getType().getName());
             }
-
             if (member.isIfList()) {
                 //是否为javabean类型的list
                 if (member.isGenericsIfBean()) {
+                    //递归生成javabean的Unmarshaller
+                    generateUnmarshaller(member.getGenericsClass());
                     beanListMembers.add(member);
-                    beanTypes.add(member.getGenericsClass().getSimpleName());
+                    imports.add(member.getGenericsClass().getName());
                 } else {
                     if (!member.getGenericsClass().getName().startsWith("java.lang")) {
-                        otherImport.add("import " + member.getType().getName());
+                        imports.add(member.getType().getName());
                     }
                     simpleListMembers.add(member);
                 }
             } else if (member.isIfBean()) {
+                //递归生成javabean的Unmarshaller
+                generateUnmarshaller(member.getType());
                 simpleMembers.add(member);
-                beanTypes.add(member.getType().getSimpleName());
             } else {
                 simpleMembers.add(member);
             }
@@ -188,11 +189,14 @@ public class TemplateUtils {
         //模板参数
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("resultType", clazz.getSimpleName());
+
         if (!CollectionUtils.isNullOrEmpty(simpleMembers)) {
             dataMap.put("members", simpleMembers);
         }
-        if (!CollectionUtils.isNullOrEmpty(beanTypes)) {
-            dataMap.put("beanTypes", beanTypes);
+        if (!CollectionUtils.isNullOrEmpty(imports)) {
+            List<String> sortImport=new ArrayList<>(imports);
+            Collections.sort(sortImport);
+            dataMap.put("imports", sortImport);
         }
         if (!CollectionUtils.isNullOrEmpty(beanListMembers)) {
             dataMap.put("beanListMembers", beanListMembers);
@@ -203,12 +207,10 @@ public class TemplateUtils {
             dataMap.put("haveList", true);
             dataMap.put("haveSimpleList", true);
         }
-        if (!CollectionUtils.isNullOrEmpty(otherImport)) {
-            dataMap.put("otherImport", otherImport);
-        }
         //输出java文件
         File marshaller = new File(
-                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/model/transform/" + clazz.getSimpleName() + "JsonUnmarshaller.java");
+                "ksc-sdk-java-epc/src/main/java/com/ksc/epc/model/transform/" + clazz
+                        .getSimpleName() + "JsonUnmarshaller.java");
         createFileFromTemplate(marshaller, dataMap, "Unmarshaller.ftl");
     }
 
